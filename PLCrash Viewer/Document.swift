@@ -10,7 +10,7 @@ import Cocoa
 
 class Document: NSDocument {
 
-	@IBOutlet var contentView: NSTextView?
+	@IBOutlet var contentView: NSTextView!
 	
 	var formattedReport = ""
 	
@@ -44,7 +44,11 @@ class Document: NSDocument {
 	}
 
 	override func windowControllerDidLoadNib(_ windowController: NSWindowController) {
-		contentView?.string = formattedReport
+		contentView.string = formattedReport
+		contentView.font = NSFont.userFixedPitchFont(ofSize: 11)
+		contentView.enclosingScrollView!.hasHorizontalScroller = true
+		contentView.textContainer!.widthTracksTextView = false
+		contentView.textContainer!.size = CGSize(width: 1000000, height: 1000000)
 		super.windowControllerDidLoadNib(windowController)
 	}
 }
