@@ -13,6 +13,7 @@
 		3661AE3521B912B600961F2A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3661AE3421B912B600961F2A /* Assets.xcassets */; };
 		3661AE3821B912B600961F2A /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3661AE3621B912B600961F2A /* MainMenu.xib */; };
 		3661AE4421B912B600961F2A /* PLCrash_ViewerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3661AE4321B912B600961F2A /* PLCrash_ViewerTests.swift */; };
+		3661AE6721B9134400961F2A /* libCrashReporter-MacOSX-Static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3661AE6621B9134400961F2A /* libCrashReporter-MacOSX-Static.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,6 +38,30 @@
 		3661AE3F21B912B600961F2A /* PLCrash ViewerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "PLCrash ViewerTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3661AE4321B912B600961F2A /* PLCrash_ViewerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PLCrash_ViewerTests.swift; sourceTree = "<group>"; };
 		3661AE4521B912B600961F2A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3661AE5021B9134400961F2A /* PLCrashNamespace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashNamespace.h; sourceTree = "<group>"; };
+		3661AE5121B9134400961F2A /* PLCrashFeatureConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashFeatureConfig.h; sourceTree = "<group>"; };
+		3661AE5221B9134400961F2A /* PLCrashReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReporter.h; sourceTree = "<group>"; };
+		3661AE5321B9134400961F2A /* PLCrashReportRegisterInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportRegisterInfo.h; sourceTree = "<group>"; };
+		3661AE5421B9134400961F2A /* PLCrashReportBinaryImageInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportBinaryImageInfo.h; sourceTree = "<group>"; };
+		3661AE5521B9134400961F2A /* PLCrashReport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReport.h; sourceTree = "<group>"; };
+		3661AE5621B9134400961F2A /* PLCrashMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashMacros.h; sourceTree = "<group>"; };
+		3661AE5721B9134400961F2A /* PLCrashReporterConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReporterConfig.h; sourceTree = "<group>"; };
+		3661AE5821B9134400961F2A /* PLCrashReportMachExceptionInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportMachExceptionInfo.h; sourceTree = "<group>"; };
+		3661AE5921B9134400961F2A /* PLCrashReportThreadInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportThreadInfo.h; sourceTree = "<group>"; };
+		3661AE5A21B9134400961F2A /* PLCrashReportStackFrameInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportStackFrameInfo.h; sourceTree = "<group>"; };
+		3661AE5B21B9134400961F2A /* PLCrashReportSystemInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportSystemInfo.h; sourceTree = "<group>"; };
+		3661AE5C21B9134400961F2A /* PLCrashReportExceptionInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportExceptionInfo.h; sourceTree = "<group>"; };
+		3661AE5D21B9134400961F2A /* PLCrashReportProcessorInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportProcessorInfo.h; sourceTree = "<group>"; };
+		3661AE5E21B9134400961F2A /* CrashReporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrashReporter.h; sourceTree = "<group>"; };
+		3661AE5F21B9134400961F2A /* PLCrashReportSignalInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportSignalInfo.h; sourceTree = "<group>"; };
+		3661AE6021B9134400961F2A /* PLCrashReportApplicationInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportApplicationInfo.h; sourceTree = "<group>"; };
+		3661AE6121B9134400961F2A /* PLCrashReportMachineInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportMachineInfo.h; sourceTree = "<group>"; };
+		3661AE6221B9134400961F2A /* PLCrashReportTextFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportTextFormatter.h; sourceTree = "<group>"; };
+		3661AE6321B9134400961F2A /* PLCrashReportFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportFormatter.h; sourceTree = "<group>"; };
+		3661AE6421B9134400961F2A /* PLCrashReportProcessInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportProcessInfo.h; sourceTree = "<group>"; };
+		3661AE6521B9134400961F2A /* PLCrashReportSymbolInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportSymbolInfo.h; sourceTree = "<group>"; };
+		3661AE6621B9134400961F2A /* libCrashReporter-MacOSX-Static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libCrashReporter-MacOSX-Static.a"; sourceTree = "<group>"; };
+		3661AE6821B9138F00961F2A /* PLCrash Viewer-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PLCrash Viewer-Bridging-Header.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3661AE6721B9134400961F2A /* libCrashReporter-MacOSX-Static.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +104,7 @@
 		3661AE2C21B912B500961F2A /* PLCrash Viewer */ = {
 			isa = PBXGroup;
 			children = (
+				3661AE4E21B9134400961F2A /* CrashReporter */,
 				3661AE2D21B912B500961F2A /* AppDelegate.swift */,
 				3661AE2F21B912B500961F2A /* Document.swift */,
 				3661AE3121B912B500961F2A /* Document.xib */,
@@ -85,6 +112,7 @@
 				3661AE3621B912B600961F2A /* MainMenu.xib */,
 				3661AE3921B912B600961F2A /* Info.plist */,
 				3661AE3A21B912B600961F2A /* PLCrash_Viewer.entitlements */,
+				3661AE6821B9138F00961F2A /* PLCrash Viewer-Bridging-Header.h */,
 			);
 			path = "PLCrash Viewer";
 			sourceTree = "<group>";
@@ -96,6 +124,45 @@
 				3661AE4521B912B600961F2A /* Info.plist */,
 			);
 			path = "PLCrash ViewerTests";
+			sourceTree = "<group>";
+		};
+		3661AE4E21B9134400961F2A /* CrashReporter */ = {
+			isa = PBXGroup;
+			children = (
+				3661AE4F21B9134400961F2A /* Headers */,
+				3661AE6621B9134400961F2A /* libCrashReporter-MacOSX-Static.a */,
+			);
+			name = CrashReporter;
+			path = Vendor/CrashReporter;
+			sourceTree = SOURCE_ROOT;
+		};
+		3661AE4F21B9134400961F2A /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				3661AE5021B9134400961F2A /* PLCrashNamespace.h */,
+				3661AE5121B9134400961F2A /* PLCrashFeatureConfig.h */,
+				3661AE5221B9134400961F2A /* PLCrashReporter.h */,
+				3661AE5321B9134400961F2A /* PLCrashReportRegisterInfo.h */,
+				3661AE5421B9134400961F2A /* PLCrashReportBinaryImageInfo.h */,
+				3661AE5521B9134400961F2A /* PLCrashReport.h */,
+				3661AE5621B9134400961F2A /* PLCrashMacros.h */,
+				3661AE5721B9134400961F2A /* PLCrashReporterConfig.h */,
+				3661AE5821B9134400961F2A /* PLCrashReportMachExceptionInfo.h */,
+				3661AE5921B9134400961F2A /* PLCrashReportThreadInfo.h */,
+				3661AE5A21B9134400961F2A /* PLCrashReportStackFrameInfo.h */,
+				3661AE5B21B9134400961F2A /* PLCrashReportSystemInfo.h */,
+				3661AE5C21B9134400961F2A /* PLCrashReportExceptionInfo.h */,
+				3661AE5D21B9134400961F2A /* PLCrashReportProcessorInfo.h */,
+				3661AE5E21B9134400961F2A /* CrashReporter.h */,
+				3661AE5F21B9134400961F2A /* PLCrashReportSignalInfo.h */,
+				3661AE6021B9134400961F2A /* PLCrashReportApplicationInfo.h */,
+				3661AE6121B9134400961F2A /* PLCrashReportMachineInfo.h */,
+				3661AE6221B9134400961F2A /* PLCrashReportTextFormatter.h */,
+				3661AE6321B9134400961F2A /* PLCrashReportFormatter.h */,
+				3661AE6421B9134400961F2A /* PLCrashReportProcessInfo.h */,
+				3661AE6521B9134400961F2A /* PLCrashReportSymbolInfo.h */,
+			);
+			path = Headers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -148,6 +215,7 @@
 				TargetAttributes = {
 					3661AE2921B912B500961F2A = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1010;
 						SystemCapabilities = {
 							com.apple.Sandbox = {
 								enabled = 0;
@@ -366,6 +434,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "PLCrash Viewer/Info.plist";
@@ -373,8 +442,14 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Vendor/CrashReporter",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "at.eggerapps.PLCrash-Viewer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "PLCrash Viewer/PLCrash Viewer-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
@@ -383,6 +458,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "PLCrash Viewer/Info.plist";
@@ -390,8 +466,13 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Vendor/CrashReporter",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "at.eggerapps.PLCrash-Viewer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "PLCrash Viewer/PLCrash Viewer-Bridging-Header.h";
 				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
