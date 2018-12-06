@@ -10,6 +10,10 @@ import Cocoa
 
 class Document: NSDocument {
 
+	@IBOutlet var contentView: NSTextView?
+	
+	var formattedReport = ""
+	
 	override init() {
 	    super.init()
 		// Add your subclass-specific initialization here.
@@ -32,12 +36,16 @@ class Document: NSDocument {
 	}
 
 	override func read(from data: Data, ofType typeName: String) throws {
-		// Insert code here to read your document from the given data of the specified type, throwing an error in case of failure.
-		// Alternatively, you could remove this method and override read(from:ofType:) instead.
-		// If you do, you should also override isEntireFileLoaded to return false if the contents are lazily loaded.
-		throw NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
+		let cr = try BITPLCrashReport(data: data)
+		let formatter = BITPLCrashReportTextFormatter(textFormat: PLCrashReportTextFormatiOS, stringEncoding: String.Encoding.utf8.rawValue)!
+		let formattedReportData = try formatter.formatReport(cr)
+		formattedReport = String(bytes: formattedReportData, encoding: .utf8)!
+		if let contentView = contentView { contentView.string = formattedReport }
 	}
 
-
+	override func windowControllerDidLoadNib(_ windowController: NSWindowController) {
+		contentView?.string = formattedReport
+		super.windowControllerDidLoadNib(windowController)
+	}
 }
 
