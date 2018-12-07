@@ -44,11 +44,17 @@ class Document: NSDocument {
 	}
 
 	override func windowControllerDidLoadNib(_ windowController: NSWindowController) {
-		contentView.string = formattedReport
 		contentView.font = NSFont.userFixedPitchFont(ofSize: 11)
 		contentView.enclosingScrollView!.hasHorizontalScroller = true
+		contentView.enclosingScrollView!.hasVerticalScroller = true
+		contentView.enclosingScrollView!.autohidesScrollers = true
+		contentView.isHorizontallyResizable = true
+		contentView.isVerticallyResizable = true
+		contentView.maxSize = CGSize(width: 1000000, height: 1000000)
 		contentView.textContainer!.widthTracksTextView = false
+		contentView.textContainer!.heightTracksTextView = false
 		contentView.textContainer!.size = CGSize(width: 1000000, height: 1000000)
+		contentView.string = formattedReport
 		super.windowControllerDidLoadNib(windowController)
 	}
 }
