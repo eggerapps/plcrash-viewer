@@ -13,7 +13,17 @@ class Document: NSDocument {
 
 	@IBOutlet var contentView: NSTextView!
 	
-	var formattedReport = ""
+	var crashReport: BITPLCrashReport? { didSet { updateContentView() } }
+	
+	func updateContentView() {
+		if let contentView = contentView {
+			if let crashReport = crashReport {
+				contentView.string = BITPLCrashReportTextFormatter.stringValue(for: crashReport, with: PLCrashReportTextFormatiOS)
+			} else {
+				contentView.string = ""
+			}
+		}
+	}
 	
 	override init() {
 	    super.init()
@@ -50,11 +60,7 @@ class Document: NSDocument {
 			let uncompressedData = Data(bytes: uncompressedBytes, count: Int(uncompressedLength))
 			return try read(from: uncompressedData, ofType: typeName)
 		}
-		let cr = try BITPLCrashReport(data: data)
-		let formatter = BITPLCrashReportTextFormatter(textFormat: PLCrashReportTextFormatiOS, stringEncoding: String.Encoding.utf8.rawValue)!
-		let formattedReportData = try formatter.formatReport(cr)
-		formattedReport = String(bytes: formattedReportData, encoding: .utf8)!
-		if let contentView = contentView { contentView.string = formattedReport }
+        crashReport = try BITPLCrashReport(data: data)
 	}
 
 	override func windowControllerDidLoadNib(_ windowController: NSWindowController) {
@@ -68,7 +74,7 @@ class Document: NSDocument {
 		contentView.textContainer!.widthTracksTextView = false
 		contentView.textContainer!.heightTracksTextView = false
 		contentView.textContainer!.size = CGSize(width: 1000000, height: 1000000)
-		contentView.string = formattedReport
+		updateContentView()
 		super.windowControllerDidLoadNib(windowController)
 	}
 }
