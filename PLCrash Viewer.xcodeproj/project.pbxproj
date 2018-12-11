@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		362BC2AD21BA7031000D37EA /* ThreadsViewDatasource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 362BC2AC21BA7031000D37EA /* ThreadsViewDatasource.swift */; };
 		3661AE2E21B912B500961F2A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3661AE2D21B912B500961F2A /* AppDelegate.swift */; };
 		3661AE3021B912B500961F2A /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3661AE2F21B912B500961F2A /* Document.swift */; };
 		3661AE3321B912B500961F2A /* Document.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3661AE3121B912B500961F2A /* Document.xib */; };
@@ -27,6 +28,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		362BC2AC21BA7031000D37EA /* ThreadsViewDatasource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadsViewDatasource.swift; sourceTree = "<group>"; };
 		3661AE2A21B912B500961F2A /* PLCrash Viewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PLCrash Viewer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3661AE2D21B912B500961F2A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3661AE2F21B912B500961F2A /* Document.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
@@ -107,6 +109,7 @@
 				3661AE4E21B9134400961F2A /* CrashReporter */,
 				3661AE2D21B912B500961F2A /* AppDelegate.swift */,
 				3661AE2F21B912B500961F2A /* Document.swift */,
+				362BC2AC21BA7031000D37EA /* ThreadsViewDatasource.swift */,
 				3661AE3121B912B500961F2A /* Document.xib */,
 				3661AE3421B912B600961F2A /* Assets.xcassets */,
 				3661AE3621B912B600961F2A /* MainMenu.xib */,
@@ -273,6 +276,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3661AE3021B912B500961F2A /* Document.swift in Sources */,
+				362BC2AD21BA7031000D37EA /* ThreadsViewDatasource.swift in Sources */,
 				3661AE2E21B912B500961F2A /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

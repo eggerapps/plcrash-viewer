@@ -12,8 +12,15 @@ import zlib
 class Document: NSDocument {
 
 	@IBOutlet var contentView: NSTextView!
+	@IBOutlet weak var threadsView: NSOutlineView!
+	
+	@IBAction func selectDisplayMode(_ sender: NSSegmentedControl) {
+		threadsView.enclosingScrollView!.isHidden = (sender.selectedSegment != 0)
+		contentView.enclosingScrollView!.isHidden = (sender.selectedSegment != 1)
+	}
 	
 	var crashReport: BITPLCrashReport? { didSet { updateContentView() } }
+	var threadsViewDatasource: ThreadsViewDatasource?
 	
 	func updateContentView() {
 		if let contentView = contentView {
@@ -21,6 +28,27 @@ class Document: NSDocument {
 				contentView.string = BITPLCrashReportTextFormatter.stringValue(for: crashReport, with: PLCrashReportTextFormatiOS)
 			} else {
 				contentView.string = ""
+			}
+		}
+		if let threadsView = threadsView {
+			if let crashReport = crashReport {
+				threadsViewDatasource = ThreadsViewDatasource(crashReport: crashReport)
+			} else {
+				threadsViewDatasource = nil
+			}
+			threadsView.dataSource = threadsViewDatasource
+			threadsView.delegate = threadsViewDatasource
+			threadsView.reloadData()
+			if let crashReport = crashReport {
+				if let e = crashReport.exceptionInfo {
+					threadsView.expandItem(e)
+				} else {
+					for thread in crashReport.threads as! [BITPLCrashReportThreadInfo] {
+						if thread.crashed {
+							threadsView.expandItem(thread)
+						}
+					}
+				}
 			}
 		}
 	}
@@ -75,6 +103,7 @@ class Document: NSDocument {
 		contentView.textContainer!.heightTracksTextView = false
 		contentView.textContainer!.size = CGSize(width: 1000000, height: 1000000)
 		updateContentView()
+		contentView.enclosingScrollView!.isHidden = true
 		super.windowControllerDidLoadNib(windowController)
 	}
 }
