@@ -18,31 +18,31 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="133" y="235" width="850" height="300"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1280" height="777"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
             <value key="minSize" type="size" width="94" height="86"/>
             <view key="contentView" wantsLayer="YES" id="gIp-Ho-8D9">
                 <rect key="frame" x="0.0" y="0.0" width="850" height="300"/>
-                <autoresizingMask key="autoresizingMask"/>
+                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OKH-2C-Rem">
                         <rect key="frame" x="0.0" y="0.0" width="850" height="300"/>
                         <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="N2x-8V-HYs">
-                            <rect key="frame" x="0.0" y="0.0" width="850" height="300"/>
+                            <rect key="frame" x="0.0" y="0.0" width="835" height="300"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <textView importsGraphics="NO" richText="NO" verticallyResizable="YES" findStyle="bar" smartInsertDelete="YES" id="6Vr-2m-sJF">
-                                    <rect key="frame" x="0.0" y="0.0" width="850" height="300"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="835" height="300"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                    <size key="minSize" width="850" height="300"/>
+                                    <size key="minSize" width="835" height="300"/>
                                     <size key="maxSize" width="891" height="10000000"/>
                                     <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                 </textView>
                             </subviews>
                         </clipView>
                         <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="fzR-QX-m6T">
-                            <rect key="frame" x="834" y="0.0" width="16" height="300"/>
+                            <rect key="frame" x="835" y="0.0" width="15" height="300"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                     </scrollView>
@@ -146,7 +146,7 @@
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                             <prototypeCellViews>
                                                 <tableCellView id="qga-kL-iG3">
-                                                    <rect key="frame" x="200" y="0.0" width="104" height="17"/>
+                                                    <rect key="frame" x="199.5" y="0.0" width="104" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="rUf-T2-i0c">

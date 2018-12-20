@@ -17,12 +17,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 	func applicationDidFinishLaunching(_ aNotification: Notification) {
 		// Insert code here to initialize your application
+		
+		UserDefaults.standard.register(defaults: [PreferenceWindowController.DSymRootFolderKey: "/Volumes/Builds/Releases/",
+												  PreferenceWindowController.ArchiveFilePatternKey: "postico-$BUILD.xcarchive.zip"])
 	}
 
 	func applicationWillTerminate(_ aNotification: Notification) {
 		// Insert code here to tear down your application
 	}
 
-
+	@IBAction func openPreferenceWindow(_ sender: Any?) {
+		PreferenceWindowController.sharedController.showWindow(sender)
+	}
 }
 

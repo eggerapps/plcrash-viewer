@@ -19,8 +19,9 @@ class Document: NSDocument {
 		contentView.enclosingScrollView!.isHidden = (sender.selectedSegment != 1)
 	}
 	
-	var crashReport: BITPLCrashReport? { didSet { updateContentView() } }
+	var crashReport: BITPLCrashReport?
 	var threadsViewDatasource: ThreadsViewDatasource?
+	var symbolizer: Symbolizer?
 	
 	func updateContentView() {
 		if let contentView = contentView {
@@ -89,6 +90,12 @@ class Document: NSDocument {
 			return try read(from: uncompressedData, ofType: typeName)
 		}
         crashReport = try BITPLCrashReport(data: data)
+		do {
+			symbolizer = try Symbolizer.symbolizer(forCrashReport: crashReport!)
+		} catch let error {
+			Symbolizer.reportError(error, crashReport: crashReport!)
+		}
+		updateContentView()
 	}
 
 	override func windowControllerDidLoadNib(_ windowController: NSWindowController) {

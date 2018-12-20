@@ -10,8 +10,11 @@ import Cocoa
 
 class ThreadsViewDatasource: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource {
 	let crashReport: BITPLCrashReport
+	let symbolizer: Symbolizer?
+	
 	init(crashReport: BITPLCrashReport) {
 		self.crashReport = crashReport
+		self.symbolizer = try? Symbolizer.symbolizer(forCrashReport: crashReport)
 	}
 	
 	func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
@@ -76,7 +79,19 @@ class ThreadsViewDatasource: NSObject, NSOutlineViewDelegate, NSOutlineViewDataS
 				tableCellView.textField?.alignment = .right
 			}
 			else if identifier == NSUserInterfaceItemIdentifier(rawValue: "SymbolName") {
-				stringValue = stackFrame.symbolInfo?.symbolName ?? "???"
+				var symbolName = stackFrame.symbolInfo?.symbolName ?? "???"
+				if let symbolizer = symbolizer,
+				   symbolName == "???" || symbolName == "__mh_execute_header"
+				{
+					let address = stackFrame.instructionPointer
+					if let imageLoadAddress = crashReport.image(forAddress: address)?.imageBaseAddress {
+						if let symbols = try? symbolizer.symbolize(imageLoadAddress: imageLoadAddress,
+																   stackAddresses: [address]) {
+							symbolName = symbols.first ?? "???"
+						}
+					}
+				}
+				stringValue = symbolName
 			}
 			else if identifier == NSUserInterfaceItemIdentifier(rawValue: "InstructionPointer") {
 				stringValue = NSString(format: "0x%x", stackFrame.instructionPointer) as String
