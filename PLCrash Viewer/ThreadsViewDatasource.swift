@@ -79,17 +79,17 @@ class ThreadsViewDatasource: NSObject, NSOutlineViewDelegate, NSOutlineViewDataS
 				tableCellView.textField?.alignment = .right
 			}
 			else if identifier == NSUserInterfaceItemIdentifier(rawValue: "SymbolName") {
-				var symbolName = stackFrame.symbolInfo?.symbolName ?? "???"
-				if let symbolizer = symbolizer,
-				   symbolName == "???" || symbolName == "__mh_execute_header"
+				let symbolInfo = stackFrame.symbolInfo
+				var symbolName = symbolInfo?.symbolName ?? "???"
+
+				let address = stackFrame.instructionPointer - 1
+
+				if let image = crashReport.images.first as? BITPLCrashReportBinaryImageInfo,
+				   image.imageBaseAddress ..< (image.imageBaseAddress + image.imageSize) ~= address,
+				   let symbols = try? symbolizer?.symbolize(imageLoadAddress: image.imageBaseAddress,
+														    stackAddresses: [address])
 				{
-					let address = stackFrame.instructionPointer
-					if let imageLoadAddress = crashReport.image(forAddress: address)?.imageBaseAddress {
-						if let symbols = try? symbolizer.symbolize(imageLoadAddress: imageLoadAddress,
-																   stackAddresses: [address]) {
-							symbolName = symbols.first ?? "???"
-						}
-					}
+					symbolName = symbols?.first ?? "???"
 				}
 				stringValue = symbolName
 			}
