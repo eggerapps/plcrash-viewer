@@ -37,19 +37,21 @@ public class Symbolizer
 			return instance
 		}
 		
-		guard let rootFolder = UserDefaults.standard.string(forKey: PreferenceWindowController.DSymRootFolderKey)
+		guard let rootFolders = UserDefaults.standard.stringArray(forKey: PreferenceWindowController.DSymRootFolderListKey)
 			else { throw SymbolizerError.dSymRootFolderKeyMissing }
 		guard let archivePattern = UserDefaults.standard.string(forKey: PreferenceWindowController.ArchiveFilePatternKey)
 			else { throw SymbolizerError.archiveFilePatternKeyMissing }
 		
-		let rootFolderURL = URL(fileURLWithPath: rootFolder)
+		let rootFolderURLs = rootFolders.map { URL(fileURLWithPath: $0) }
 		
-		let v = try rootFolderURL.resourceValues(forKeys: [.isDirectoryKey, .canonicalPathKey])
-		guard v.isDirectory == true else { throw SymbolizerError.dSymRootFolderKeyMissing }
+		for rootFolderURL in rootFolderURLs {
+			let v = try rootFolderURL.resourceValues(forKeys: [.isDirectoryKey, .canonicalPathKey])
+			guard v.isDirectory == true else { throw SymbolizerError.dSymRootFolderKeyMissing }
+		}
 		
 		let expectedFilename = renderExpectedFilename(pattern: archivePattern,
 													  placeholders: [ "$BUILD": buildNumber ])
-		guard let xcArchive = findFile(rootFolder: rootFolderURL, expectedFileName: expectedFilename) else {
+		guard let xcArchive = findFile(rootFolders: rootFolderURLs, expectedFileName: expectedFilename) else {
 			throw SymbolizerError.xcarchiveFileNotFound
 		}
 		
@@ -92,11 +94,11 @@ public class Symbolizer
 		
 		let alert = NSAlert(error: error)
 		alert.messageText =
-		"""
-		Unable to locate the dSYM file for \(crashReport.applicationInfo.applicationIdentifier!) build \(crashReport.applicationInfo.applicationVersion!).\n
-		Please check the root folder configured in the user preferences
-		"""
-		if let rootFolder = UserDefaults.standard.string(forKey: PreferenceWindowController.DSymRootFolderKey) {
+			"""
+			Unable to locate the dSYM file for \(crashReport.applicationInfo.applicationIdentifier!) build \(crashReport.applicationInfo.applicationVersion!).\n
+			Please check the root folder configured in the user preferences
+			"""
+		if let rootFolder = UserDefaults.standard.string(forKey: PreferenceWindowController.DSymRootFolderListKey) {
 			alert.messageText += ":\n\(rootFolder)"
 		}
 		alert.addButton(withTitle: "Open Preferences")
@@ -121,9 +123,9 @@ public class Symbolizer
 		return result
 	}
 	
-	private class func findFile(rootFolder: URL, expectedFileName: String) -> URL?
+	private class func findFile(rootFolders: [URL], expectedFileName: String) -> URL?
 	{
-		var folders = [ rootFolder ]
+		var folders = rootFolders
 		while let folder = folders.popLast() {
 			if let contents = try? FileManager.default.contentsOfDirectory(atPath: folder.path) {
 				for c in contents {

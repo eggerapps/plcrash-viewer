@@ -18,7 +18,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	func applicationDidFinishLaunching(_ aNotification: Notification) {
 		// Insert code here to initialize your application
 		
-		UserDefaults.standard.register(defaults: [PreferenceWindowController.DSymRootFolderKey: "/Volumes/Builds/Releases/",
+		UserDefaults.standard.register(defaults: [PreferenceWindowController.DSymRootFolderListKey: ["/Volumes/RAID/Builds/Releases/", "/Volumes/RAID/Builds/Postico/"],
 												  PreferenceWindowController.ArchiveFilePatternKey: "postico-$BUILD.xcarchive.zip"])
 	}
 
