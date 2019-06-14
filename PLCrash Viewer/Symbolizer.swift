@@ -49,21 +49,46 @@ public class Symbolizer
 			guard v.isDirectory == true else { throw SymbolizerError.dSymRootFolderKeyMissing }
 		}
 		
+		var unzippedXCArchive: URL
+
+		let rankBoostPattern = try! NSRegularExpression(pattern: ".*\(buildNumber).*")
+		
 		let expectedFilename = renderExpectedFilename(pattern: archivePattern,
 													  placeholders: [ "$BUILD": buildNumber ])
-		guard let xcArchive = findFile(rootFolders: rootFolderURLs, expectedFileName: expectedFilename) else {
-			throw SymbolizerError.xcarchiveFileNotFound
-		}
-		
-		var unzippedXCArchive: URL = xcArchive
-		if xcArchive.pathExtension == "zip" {
-			let destinationFolder = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("PLCrashViewer")
-			guard unzipFile(at: xcArchive.path, to: destinationFolder.path) else {
-				throw SymbolizerError.xcarchiveFileNotUnzippable
+		if expectedFilename.hasSuffix(".zip") {
+			// NOTE: first see if it a decompressed xcarchive is already present
+			var unzippedFilename = expectedFilename
+			unzippedFilename.removeLast(4)
+			if let xcArchive = findFile(rootFolders: rootFolderURLs,
+										expectedFileName: unzippedFilename,
+										rankBoostPattern: rankBoostPattern)
+			{
+				unzippedXCArchive = xcArchive
+			} else {
+				// NOTE: zip has to be expanded
+				guard let xcArchive = findFile(rootFolders: rootFolderURLs,
+											   expectedFileName: expectedFilename,
+											   rankBoostPattern: rankBoostPattern)
+				else {
+					throw SymbolizerError.xcarchiveFileNotFound
+				}
+				
+				let destinationFolder = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("PLCrashViewer")
+				guard unzipFile(at: xcArchive.path, to: destinationFolder.path) else {
+					throw SymbolizerError.xcarchiveFileNotUnzippable
+				}
+				
+				let name = xcArchive.deletingPathExtension().lastPathComponent
+				unzippedXCArchive = destinationFolder.appendingPathComponent(name)
 			}
-			
-			let name = xcArchive.deletingPathExtension().lastPathComponent
-			unzippedXCArchive = destinationFolder.appendingPathComponent(name)
+		} else {
+			guard let xcArchive = findFile(rootFolders: rootFolderURLs,
+										   expectedFileName: expectedFilename,
+										   rankBoostPattern: rankBoostPattern)
+			else {
+				throw SymbolizerError.xcarchiveFileNotFound
+			}
+			unzippedXCArchive = xcArchive
 		}
 		
 		var dsymArchive = unzippedXCArchive.appendingPathComponent("dSYMs")
@@ -123,17 +148,32 @@ public class Symbolizer
 		return result
 	}
 	
-	private class func findFile(rootFolders: [URL], expectedFileName: String) -> URL?
+	private class func findFile(rootFolders: [URL],
+								expectedFileName: String,
+								rankBoostPattern: NSRegularExpression) -> URL?
 	{
+		// NOTE: we won't slowly descend into expanded Postico.apps
+		let blacklistedExtensions = Set<String>(["app", "framework"])
+
 		var folders = rootFolders
 		while let folder = folders.popLast() {
 			if let contents = try? FileManager.default.contentsOfDirectory(atPath: folder.path) {
-				for c in contents {
+				let rankedContents = contents.sorted { (a, b) -> Bool in
+					let aIsMatch = rankBoostPattern.rangeOfFirstMatch(in: a, options: [],
+																	  range: NSMakeRange(0, (a as NSString).length)).length > 0
+					let bIsMatch = rankBoostPattern.rangeOfFirstMatch(in: b, options: [],
+																	  range: NSMakeRange(0, (b as NSString).length)).length > 0
+					if aIsMatch && !bIsMatch { return true }
+					return false
+				}
+				for c in rankedContents {
 					let url = folder.appendingPathComponent(c)
 					guard let rv = try? url.resourceValues(forKeys: [.isRegularFileKey, .isDirectoryKey]) else { continue }
-					if c == expectedFileName && rv.isRegularFile == true {
+					if c == expectedFileName {
 						return url
-					} else if rv.isDirectory == true {
+					} else if rv.isDirectory == true,
+						      !blacklistedExtensions.contains(url.pathExtension)
+					{
 						folders.insert(url, at: 0)
 					}
 				}
