@@ -76,20 +76,7 @@ class Document: NSDocument {
 	}
 
 	override func read(from data: Data, ofType typeName: String) throws {
-		if data.prefix(7) == "zplcrsh".data(using: .utf8) {
-			let compressedBytes = [UInt8](data.advanced(by: 7))
-			var uncompressedBytes = [UInt8](repeating: 0, count: 1024*1024)
-			var uncompressedLength: UInt = UInt(uncompressedBytes.count)
-			let zlibResult = uncompress(&uncompressedBytes, &uncompressedLength, compressedBytes, UInt(compressedBytes.count))
-			guard zlibResult == Z_OK else {
-				if zlibResult == Z_BUF_ERROR { throw NSError(domain: "at.eggerapps.PLCrash-Viewer", code: 1, userInfo: [NSLocalizedDescriptionKey: "Uncompressed crash report to big", NSLocalizedRecoverySuggestionErrorKey: "Maximum uncompressed size is \(uncompressedBytes.count) bytes."]) }
-				if zlibResult == Z_DATA_ERROR { throw NSError(domain: "at.eggerapps.PLCrash-Viewer", code: 1, userInfo: [NSLocalizedDescriptionKey: "Compressed crash report corrupted", NSLocalizedRecoverySuggestionErrorKey: "The zlib stream was corrupted"]) }
-				throw NSError(domain: "at.eggerapps.PLCrash-Viewer", code: 1, userInfo: [NSLocalizedDescriptionKey: "Crash report could not be uncompressed", NSLocalizedRecoverySuggestionErrorKey: "uncompress() returned \(zlibResult)"])
-			}
-			let uncompressedData = Data(bytes: uncompressedBytes, count: Int(uncompressedLength))
-			return try read(from: uncompressedData, ofType: typeName)
-		}
-        crashReport = try BITPLCrashReport(data: data)
+		crashReport = try CompressedCrashReportReader.read(from: data, ofType: typeName)
 		do {
 			symbolizer = try Symbolizer.symbolizer(forCrashReport: crashReport!)
 		} catch let error {

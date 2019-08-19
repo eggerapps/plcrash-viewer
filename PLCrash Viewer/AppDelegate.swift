@@ -9,12 +9,26 @@
 import Cocoa
 
 @NSApplicationMain
-class AppDelegate: NSObject, NSApplicationDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate
+{
 
 	func applicationShouldOpenUntitledFile(_ sender: NSApplication) -> Bool {
-		return false
+		MainWindowController.shared.showWindow(nil)
+		return true
+	}
+	
+	
+/*
+	-(BOOL)applicationOpenUntitledFile:(NSApplication *)sender {
+		[[PGEWindowController windowControllerFor:[NavigationItem favoritesList]] showWindow: nil];
+		return YES;
 	}
 
+	-(IBAction)newWindow:(id)sender {
+		[[PGEWindowController windowControllerFor:[NavigationItem favoritesList]] showWindow: nil];
+	}
+*/
+	
 	func applicationDidFinishLaunching(_ aNotification: Notification) {
 		// Insert code here to initialize your application
 		

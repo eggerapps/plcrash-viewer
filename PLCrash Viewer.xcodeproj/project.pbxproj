@@ -15,6 +15,16 @@
 		3661AE3821B912B600961F2A /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3661AE3621B912B600961F2A /* MainMenu.xib */; };
 		3661AE4421B912B600961F2A /* PLCrash_ViewerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3661AE4321B912B600961F2A /* PLCrash_ViewerTests.swift */; };
 		3661AE6721B9134400961F2A /* libCrashReporter-MacOSX-Static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3661AE6621B9134400961F2A /* libCrashReporter-MacOSX-Static.a */; };
+		5B68C65E230B091E00DFF100 /* MainWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B68C65C230B091E00DFF100 /* MainWindowController.swift */; };
+		5B68C65F230B091E00DFF100 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B68C65D230B091E00DFF100 /* MainWindow.xib */; };
+		5B68C663230B0D5600DFF100 /* CrashReportView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B68C661230B0D5600DFF100 /* CrashReportView.xib */; };
+		5B68C665230B0EC300DFF100 /* CrashReportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B68C664230B0EC300DFF100 /* CrashReportViewController.swift */; };
+		5B68C667230B0FBF00DFF100 /* CompressedCrashReportReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B68C666230B0FBF00DFF100 /* CompressedCrashReportReader.swift */; };
+		5B68C669230B1B0C00DFF100 /* CrashReportStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B68C668230B1B0C00DFF100 /* CrashReportStore.swift */; };
+		5B68C66B230B1B9300DFF100 /* CrashReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B68C66A230B1B9300DFF100 /* CrashReport.swift */; };
+		5B68C66D230B1D2A00DFF100 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B68C66C230B1D2A00DFF100 /* Category.swift */; };
+		5B68C66F230B1D7400DFF100 /* SidebarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B68C66E230B1D7400DFF100 /* SidebarItem.swift */; };
+		5B68C671230B244D00DFF100 /* CrashReportStoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B68C670230B244D00DFF100 /* CrashReportStoreView.swift */; };
 		5B70726E21CAA7F9001749F1 /* PreferenceWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B70726C21CAA7F9001749F1 /* PreferenceWindow.xib */; };
 		5B70727121CAAB7C001749F1 /* PreferenceWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B70727021CAAB7C001749F1 /* PreferenceWindowController.swift */; };
 		5B70727321CABC7E001749F1 /* Symbolizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B70727221CABC7E001749F1 /* Symbolizer.swift */; };
@@ -67,6 +77,16 @@
 		3661AE6521B9134400961F2A /* PLCrashReportSymbolInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PLCrashReportSymbolInfo.h; sourceTree = "<group>"; };
 		3661AE6621B9134400961F2A /* libCrashReporter-MacOSX-Static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libCrashReporter-MacOSX-Static.a"; sourceTree = "<group>"; };
 		3661AE6821B9138F00961F2A /* PLCrash Viewer-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PLCrash Viewer-Bridging-Header.h"; sourceTree = "<group>"; };
+		5B68C65C230B091E00DFF100 /* MainWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindowController.swift; sourceTree = "<group>"; };
+		5B68C65D230B091E00DFF100 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
+		5B68C662230B0D5600DFF100 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = "PLCrash Viewer/Base.lproj/CrashReportView.xib"; sourceTree = "<group>"; };
+		5B68C664230B0EC300DFF100 /* CrashReportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrashReportViewController.swift; sourceTree = "<group>"; };
+		5B68C666230B0FBF00DFF100 /* CompressedCrashReportReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompressedCrashReportReader.swift; sourceTree = "<group>"; };
+		5B68C668230B1B0C00DFF100 /* CrashReportStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrashReportStore.swift; sourceTree = "<group>"; };
+		5B68C66A230B1B9300DFF100 /* CrashReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrashReport.swift; sourceTree = "<group>"; };
+		5B68C66C230B1D2A00DFF100 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		5B68C66E230B1D7400DFF100 /* SidebarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarItem.swift; sourceTree = "<group>"; };
+		5B68C670230B244D00DFF100 /* CrashReportStoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrashReportStoreView.swift; sourceTree = "<group>"; };
 		5B70726D21CAA7F9001749F1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/PreferenceWindow.xib; sourceTree = "<group>"; };
 		5B70727021CAAB7C001749F1 /* PreferenceWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceWindowController.swift; sourceTree = "<group>"; };
 		5B70727221CABC7E001749F1 /* Symbolizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Symbolizer.swift; sourceTree = "<group>"; };
@@ -113,18 +133,26 @@
 			isa = PBXGroup;
 			children = (
 				3661AE4E21B9134400961F2A /* CrashReporter */,
+				5B68C660230B093800DFF100 /* Supporting Files */,
+				3661AE3421B912B600961F2A /* Assets.xcassets */,
 				3661AE2D21B912B500961F2A /* AppDelegate.swift */,
+				3661AE3621B912B600961F2A /* MainMenu.xib */,
+				5B68C65D230B091E00DFF100 /* MainWindow.xib */,
+				5B68C65C230B091E00DFF100 /* MainWindowController.swift */,
+				5B68C661230B0D5600DFF100 /* CrashReportView.xib */,
+				5B68C664230B0EC300DFF100 /* CrashReportViewController.swift */,
 				3661AE3121B912B500961F2A /* Document.xib */,
 				3661AE2F21B912B500961F2A /* Document.swift */,
 				362BC2AC21BA7031000D37EA /* ThreadsViewDatasource.swift */,
-				3661AE3421B912B600961F2A /* Assets.xcassets */,
-				3661AE3621B912B600961F2A /* MainMenu.xib */,
 				5B70726C21CAA7F9001749F1 /* PreferenceWindow.xib */,
 				5B70727021CAAB7C001749F1 /* PreferenceWindowController.swift */,
 				5B70727221CABC7E001749F1 /* Symbolizer.swift */,
-				3661AE3921B912B600961F2A /* Info.plist */,
-				3661AE3A21B912B600961F2A /* PLCrash_Viewer.entitlements */,
-				3661AE6821B9138F00961F2A /* PLCrash Viewer-Bridging-Header.h */,
+				5B68C666230B0FBF00DFF100 /* CompressedCrashReportReader.swift */,
+				5B68C66E230B1D7400DFF100 /* SidebarItem.swift */,
+				5B68C66A230B1B9300DFF100 /* CrashReport.swift */,
+				5B68C668230B1B0C00DFF100 /* CrashReportStore.swift */,
+				5B68C670230B244D00DFF100 /* CrashReportStoreView.swift */,
+				5B68C66C230B1D2A00DFF100 /* Category.swift */,
 			);
 			path = "PLCrash Viewer";
 			sourceTree = "<group>";
@@ -175,6 +203,16 @@
 				3661AE6521B9134400961F2A /* PLCrashReportSymbolInfo.h */,
 			);
 			path = Headers;
+			sourceTree = "<group>";
+		};
+		5B68C660230B093800DFF100 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				3661AE3921B912B600961F2A /* Info.plist */,
+				3661AE3A21B912B600961F2A /* PLCrash_Viewer.entitlements */,
+				3661AE6821B9138F00961F2A /* PLCrash Viewer-Bridging-Header.h */,
+			);
+			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -266,7 +304,9 @@
 			files = (
 				3661AE3521B912B600961F2A /* Assets.xcassets in Resources */,
 				3661AE3321B912B500961F2A /* Document.xib in Resources */,
+				5B68C663230B0D5600DFF100 /* CrashReportView.xib in Resources */,
 				5B70726E21CAA7F9001749F1 /* PreferenceWindow.xib in Resources */,
+				5B68C65F230B091E00DFF100 /* MainWindow.xib in Resources */,
 				3661AE3821B912B600961F2A /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -285,11 +325,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5B68C665230B0EC300DFF100 /* CrashReportViewController.swift in Sources */,
+				5B68C66B230B1B9300DFF100 /* CrashReport.swift in Sources */,
 				5B70727121CAAB7C001749F1 /* PreferenceWindowController.swift in Sources */,
+				5B68C667230B0FBF00DFF100 /* CompressedCrashReportReader.swift in Sources */,
+				5B68C669230B1B0C00DFF100 /* CrashReportStore.swift in Sources */,
 				3661AE3021B912B500961F2A /* Document.swift in Sources */,
+				5B68C671230B244D00DFF100 /* CrashReportStoreView.swift in Sources */,
+				5B68C65E230B091E00DFF100 /* MainWindowController.swift in Sources */,
 				5B70727321CABC7E001749F1 /* Symbolizer.swift in Sources */,
 				362BC2AD21BA7031000D37EA /* ThreadsViewDatasource.swift in Sources */,
+				5B68C66F230B1D7400DFF100 /* SidebarItem.swift in Sources */,
 				3661AE2E21B912B500961F2A /* AppDelegate.swift in Sources */,
+				5B68C66D230B1D2A00DFF100 /* Category.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -326,6 +374,14 @@
 				3661AE3721B912B600961F2A /* Base */,
 			);
 			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		5B68C661230B0D5600DFF100 /* CrashReportView.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5B68C662230B0D5600DFF100 /* Base */,
+			);
+			name = CrashReportView.xib;
 			sourceTree = "<group>";
 		};
 		5B70726C21CAA7F9001749F1 /* PreferenceWindow.xib */ = {
