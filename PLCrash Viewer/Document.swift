@@ -76,7 +76,10 @@ class Document: NSDocument {
 	}
 
 	override func read(from data: Data, ofType typeName: String) throws {
-		if data.prefix(7) == "zplcrsh".data(using: .utf8) {
+		let prefix = data.prefix(7)
+		if prefix == "zplcrsh".data(using: .utf8) ||
+		   prefix == "zplhang".data(using: .utf8)
+		{
 			let compressedBytes = [UInt8](data.advanced(by: 7))
 			var uncompressedBytes = [UInt8](repeating: 0, count: 1024*1024)
 			var uncompressedLength: UInt = UInt(uncompressedBytes.count)

@@ -28,6 +28,7 @@
 			<key>CFBundleTypeExtensions</key>
 			<array>
 				<string>zplcrsh</string>
+				<string>zplhang</string>
 			</array>
 			<key>CFBundleTypeName</key>
 			<string>Compressed PLCrashReport</string>
