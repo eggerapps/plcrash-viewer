@@ -12,9 +12,9 @@ class ThreadsViewDatasource: NSObject, NSOutlineViewDelegate, NSOutlineViewDataS
 	let crashReport: BITPLCrashReport
 	let symbolizer: Symbolizer?
 	
-	init(crashReport: BITPLCrashReport) {
+	init(crashReport: BITPLCrashReport, symbolizer: Symbolizer?) {
 		self.crashReport = crashReport
-		self.symbolizer = try? Symbolizer.symbolizer(forCrashReport: crashReport)
+		self.symbolizer = symbolizer
 	}
 	
 	func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {

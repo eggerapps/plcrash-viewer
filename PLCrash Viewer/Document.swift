@@ -33,7 +33,7 @@ class Document: NSDocument {
 		}
 		if let threadsView = threadsView {
 			if let crashReport = crashReport {
-				threadsViewDatasource = ThreadsViewDatasource(crashReport: crashReport)
+				threadsViewDatasource = ThreadsViewDatasource(crashReport: crashReport, symbolizer: symbolizer)
 			} else {
 				threadsViewDatasource = nil
 			}
@@ -90,11 +90,6 @@ class Document: NSDocument {
 			return try read(fromCompressedData: data.suffix(from: range.endIndex), ofType: typeName)
 		}
         crashReport = try BITPLCrashReport(data: data)
-		do {
-			symbolizer = try Symbolizer.symbolizer(forCrashReport: crashReport!)
-		} catch let error {
-			Symbolizer.reportError(error, crashReport: crashReport!)
-		}
 		updateContentView()
 	}
 	
@@ -112,6 +107,15 @@ class Document: NSDocument {
 		return try read(from: uncompressedData, ofType: typeName)
 	}
 
+	@IBAction func symbolize(_: Any?) {
+		do {
+			symbolizer = try Symbolizer.symbolizer(forCrashReport: crashReport!)
+			updateContentView()
+		} catch let error {
+			Symbolizer.reportError(error, crashReport: crashReport!)
+		}
+	}
+	
 	override func windowControllerDidLoadNib(_ windowController: NSWindowController) {
 		contentView.font = NSFont.userFixedPitchFont(ofSize: 11)
 		contentView.enclosingScrollView!.hasHorizontalScroller = true
