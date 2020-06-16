@@ -29,6 +29,8 @@
 			<array>
 				<string>zplcrsh</string>
 				<string>zplhang</string>
+				<string>xplcrash</string>
+				<string>xplhang</string>
 			</array>
 			<key>CFBundleTypeName</key>
 			<string>Compressed PLCrashReport</string>

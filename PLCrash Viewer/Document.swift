@@ -80,17 +80,14 @@ class Document: NSDocument {
 		if prefix == "zplcrsh".data(using: .utf8) ||
 		   prefix == "zplhang".data(using: .utf8)
 		{
-			let compressedBytes = [UInt8](data.advanced(by: 7))
-			var uncompressedBytes = [UInt8](repeating: 0, count: 1024*1024)
-			var uncompressedLength: UInt = UInt(uncompressedBytes.count)
-			let zlibResult = uncompress(&uncompressedBytes, &uncompressedLength, compressedBytes, UInt(compressedBytes.count))
-			guard zlibResult == Z_OK else {
-				if zlibResult == Z_BUF_ERROR { throw NSError(domain: "at.eggerapps.PLCrash-Viewer", code: 1, userInfo: [NSLocalizedDescriptionKey: "Uncompressed crash report to big", NSLocalizedRecoverySuggestionErrorKey: "Maximum uncompressed size is \(uncompressedBytes.count) bytes."]) }
-				if zlibResult == Z_DATA_ERROR { throw NSError(domain: "at.eggerapps.PLCrash-Viewer", code: 1, userInfo: [NSLocalizedDescriptionKey: "Compressed crash report corrupted", NSLocalizedRecoverySuggestionErrorKey: "The zlib stream was corrupted"]) }
-				throw NSError(domain: "at.eggerapps.PLCrash-Viewer", code: 1, userInfo: [NSLocalizedDescriptionKey: "Crash report could not be uncompressed", NSLocalizedRecoverySuggestionErrorKey: "uncompress() returned \(zlibResult)"])
+			return try read(fromCompressedData: data.advanced(by: 7), ofType: typeName)
+		}
+		if prefix == "DIAGNOS".data(using: .utf8)
+		{
+			guard let range = data.range(of: "\n\n".data(using: .utf8)!) else {
+				throw NSError(domain: "at.eggerapps.PLCrash-Viewer", code: 1, userInfo: [NSLocalizedDescriptionKey: "Diagnostic file has invalid header"])
 			}
-			let uncompressedData = Data(bytes: uncompressedBytes, count: Int(uncompressedLength))
-			return try read(from: uncompressedData, ofType: typeName)
+			return try read(fromCompressedData: data.suffix(from: range.endIndex), ofType: typeName)
 		}
         crashReport = try BITPLCrashReport(data: data)
 		do {
@@ -99,6 +96,20 @@ class Document: NSDocument {
 			Symbolizer.reportError(error, crashReport: crashReport!)
 		}
 		updateContentView()
+	}
+	
+	func read(fromCompressedData compressedData: Data, ofType typeName: String) throws {
+		let compressedBytes = [UInt8](compressedData)
+		var uncompressedBytes = [UInt8](repeating: 0, count: 1024*1024)
+		var uncompressedLength: UInt = UInt(uncompressedBytes.count)
+		let zlibResult = uncompress(&uncompressedBytes, &uncompressedLength, compressedBytes, UInt(compressedBytes.count))
+		guard zlibResult == Z_OK else {
+			if zlibResult == Z_BUF_ERROR { throw NSError(domain: "at.eggerapps.PLCrash-Viewer", code: 1, userInfo: [NSLocalizedDescriptionKey: "Uncompressed crash report to big", NSLocalizedRecoverySuggestionErrorKey: "Maximum uncompressed size is \(uncompressedBytes.count) bytes."]) }
+			if zlibResult == Z_DATA_ERROR { throw NSError(domain: "at.eggerapps.PLCrash-Viewer", code: 1, userInfo: [NSLocalizedDescriptionKey: "Compressed crash report corrupted", NSLocalizedRecoverySuggestionErrorKey: "The zlib stream was corrupted"]) }
+			throw NSError(domain: "at.eggerapps.PLCrash-Viewer", code: 1, userInfo: [NSLocalizedDescriptionKey: "Crash report could not be uncompressed", NSLocalizedRecoverySuggestionErrorKey: "uncompress() returned \(zlibResult)"])
+		}
+		let uncompressedData = Data(bytes: uncompressedBytes, count: Int(uncompressedLength))
+		return try read(from: uncompressedData, ofType: typeName)
 	}
 
 	override func windowControllerDidLoadNib(_ windowController: NSWindowController) {
