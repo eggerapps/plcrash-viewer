@@ -9,14 +9,21 @@
 import Cocoa
 
 class ThreadsViewDatasource: NSObject, NSOutlineViewDelegate, NSOutlineViewDataSource {
+	
+	// MARK: - Properties
+	
 	let crashReport: BITPLCrashReport
 	let symbolizer: Symbolizer?
+	
+	// MARK: - Initializer
 	
 	init(crashReport: BITPLCrashReport, symbolizer: Symbolizer?) {
 		self.crashReport = crashReport
 		self.symbolizer = symbolizer
 	}
 	
+	// MARK: - NSOutlineViewDataSource
+
 	func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
 		if let item = item {
 			if let thread = item as? BITPLCrashReportThreadInfo {
