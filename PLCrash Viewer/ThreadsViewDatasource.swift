@@ -67,6 +67,36 @@ class ThreadsViewDatasource: NSObject, NSOutlineViewDelegate, NSOutlineViewDataS
 		return false
 	}
 	
+	private func symbolName(for stackFrame: BITPLCrashReportStackFrameInfo) -> String {
+		let symbolInfo = stackFrame.symbolInfo
+		var symbolName = symbolInfo?.symbolName ?? "???"
+
+		let address = stackFrame.instructionPointer - 1
+
+		if let image = crashReport.images.first as? BITPLCrashReportBinaryImageInfo,
+		   image.imageBaseAddress ..< (image.imageBaseAddress + image.imageSize) ~= address,
+		   let symbols = try? symbolizer?.symbolize(imageLoadAddress: image.imageBaseAddress,
+													stackAddresses: [address])
+		{
+			symbolName = symbols?.first ?? "???"
+		}
+		return symbolName
+	}
+	
+	private func instructionPointer(for stackFrame: BITPLCrashReportStackFrameInfo) -> String {
+		NSString(format: "0x%x", stackFrame.instructionPointer) as String
+	}
+	
+	private func imageName(for stackFrame: BITPLCrashReportStackFrameInfo) -> String {
+		var imageName = "???"
+		for image in crashReport.images as! [BITPLCrashReportBinaryImageInfo] {
+			if image.imageBaseAddress <= stackFrame.instructionPointer && stackFrame.instructionPointer < image.imageBaseAddress + image.imageSize {
+				imageName = (image.imageName as NSString?)?.lastPathComponent ?? "???"
+			}
+		}
+		return imageName
+	}
+	
 	func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView? {
 		guard let identifier = tableColumn?.identifier else { fatalError("No Identifier!") }
 		let view = outlineView.makeView(withIdentifier: identifier, owner: nil)
@@ -86,31 +116,13 @@ class ThreadsViewDatasource: NSObject, NSOutlineViewDelegate, NSOutlineViewDataS
 				tableCellView.textField?.alignment = .right
 			}
 			else if identifier == NSUserInterfaceItemIdentifier(rawValue: "SymbolName") {
-				let symbolInfo = stackFrame.symbolInfo
-				var symbolName = symbolInfo?.symbolName ?? "???"
-
-				let address = stackFrame.instructionPointer - 1
-
-				if let image = crashReport.images.first as? BITPLCrashReportBinaryImageInfo,
-				   image.imageBaseAddress ..< (image.imageBaseAddress + image.imageSize) ~= address,
-				   let symbols = try? symbolizer?.symbolize(imageLoadAddress: image.imageBaseAddress,
-														    stackAddresses: [address])
-				{
-					symbolName = symbols?.first ?? "???"
-				}
-				stringValue = symbolName
+				stringValue = symbolName(for: stackFrame)
 			}
 			else if identifier == NSUserInterfaceItemIdentifier(rawValue: "InstructionPointer") {
-				stringValue = NSString(format: "0x%x", stackFrame.instructionPointer) as String
+				stringValue = instructionPointer(for: stackFrame)
 			}
 			else if identifier == NSUserInterfaceItemIdentifier(rawValue: "ImageName") {
-				var imageName = "???"
-				for image in crashReport.images as! [BITPLCrashReportBinaryImageInfo] {
-					if image.imageBaseAddress <= stackFrame.instructionPointer && stackFrame.instructionPointer < image.imageBaseAddress + image.imageSize {
-						imageName = (image.imageName as NSString?)?.lastPathComponent ?? "???"
-					}
-				} 
-				stringValue = imageName
+				stringValue = imageName(for: stackFrame)
 			}
 			else if identifier == NSUserInterfaceItemIdentifier(rawValue: "ImageLoadAddress") {
 				stringValue = ""
