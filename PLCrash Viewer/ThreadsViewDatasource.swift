@@ -147,4 +147,64 @@ class ThreadsViewDatasource: NSObject, NSOutlineViewDelegate, NSOutlineViewDataS
 		tableCellView.textField!.stringValue = stringValue
 		return tableCellView
 	}
+	
+	func outlineView(_ outlineView: NSOutlineView, writeItems items: [Any], to pasteboard: NSPasteboard) -> Bool
+	{
+		func padString(_ string: String, _ length: Int) -> String {
+			return string.padding(toLength: length,
+								  withPad: " ",
+								  startingAt: 0)
+		}
+		
+		let headerCells = ["THREAD", "FRAME", "IMAGE", "INSTRUCTION POINTER", "SYMBOL NAME"]
+		var maxCellLength = headerCells.map { $0.count }
+		
+		var rows = [ headerCells ]
+		
+		for item in items {
+			guard !(item is BITPLCrashReportThreadInfo) else { continue }
+			guard let thread = outlineView.parent(forItem: item) as? BITPLCrashReportThreadInfo else { continue }
+			
+			var row = [String]()
+			
+			if let stackFrame = item as? BITPLCrashReportStackFrameInfo {
+				row.append("\(thread.threadNumber)")
+				row.append("#\(outlineView.childIndex(forItem: item))")
+				row.append(imageName(for: stackFrame))
+				row.append(instructionPointer(for: stackFrame))
+				row.append(symbolName(for: stackFrame))
+			}
+			else if let exception = item as? BITPLCrashReportExceptionInfo {
+				row.append("\(thread.threadNumber)")
+				row.append(exception.exceptionName ?? "Exception")
+				row.append("")
+				row.append("")
+				row.append(exception.exceptionReason ?? "???")
+			}
+			else {
+				fatalError("Unexpected item: \(item)")
+			}
+			
+			for (i, cell) in row.enumerated() {
+				if maxCellLength[i] < cell.count {
+					maxCellLength[i] = cell.count
+				}
+			}
+			
+			let padCount = headerCells.count - row.count
+			row.append(contentsOf: Array(repeating: "", count: padCount))
+			rows.append(row)
+		}
+		
+		var clip = ""
+		for i in 0 ..< rows.count {
+			for j in 0 ..< headerCells.count {
+				rows[i][j] = padString(rows[i][j], maxCellLength[j])
+			}
+			clip += rows[i].joined(separator: "\t") + "\n"
+		}
+		
+		pasteboard.setString(clip, forType: .string)
+		return true
+	}
 }

@@ -131,5 +131,16 @@ class Document: NSDocument {
 		contentView.enclosingScrollView!.isHidden = true
 		super.windowControllerDidLoadNib(windowController)
 	}
+	
+	// MARK: - IB Actions
+	
+	@IBAction func copy(_ sender: Any?) {
+		let selectedItems = threadsView.selectedRowIndexes.compactMap { threadsView.item(atRow: $0) }
+
+		let pb = NSPasteboard.general
+		pb.clearContents()
+		guard ((threadsView.dataSource?.outlineView?(threadsView, writeItems: selectedItems, to: pb)) != nil)
+		else { NSSound.beep(); return }
+	}
 }
 
