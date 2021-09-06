@@ -162,20 +162,24 @@ class ThreadsViewDatasource: NSObject, NSOutlineViewDelegate, NSOutlineViewDataS
 		var rows = [ headerCells ]
 		
 		for item in items {
-			guard !(item is BITPLCrashReportThreadInfo) else { continue }
-			guard let thread = outlineView.parent(forItem: item) as? BITPLCrashReportThreadInfo else { continue }
-			
+			guard !(item is BITPLCrashReportThreadInfo) else {
+				continue
+			}
 			var row = [String]()
 			
 			if let stackFrame = item as? BITPLCrashReportStackFrameInfo {
-				row.append("\(thread.threadNumber)")
+				guard let parent = outlineView.parent(forItem: item) else { continue }
+				
+				if let thread = parent as? BITPLCrashReportThreadInfo {
+					row.append("\(thread.threadNumber)")
+				}
+				
 				row.append("#\(outlineView.childIndex(forItem: item))")
 				row.append(imageName(for: stackFrame))
 				row.append(instructionPointer(for: stackFrame))
 				row.append(symbolName(for: stackFrame))
 			}
 			else if let exception = item as? BITPLCrashReportExceptionInfo {
-				row.append("\(thread.threadNumber)")
 				row.append(exception.exceptionName ?? "Exception")
 				row.append("")
 				row.append("")
