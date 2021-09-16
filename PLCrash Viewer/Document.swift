@@ -109,10 +109,11 @@ class Document: NSDocument {
 
 	@IBAction func symbolize(_: Any?) {
 		do {
-			symbolizer = try Symbolizer.symbolizer(forCrashReport: crashReport!)
+			let dsymSymbolizer = try DSYMSymbolizer.symbolizer(forCrashReport: crashReport!)
+			self.symbolizer = CachingSymbolizer(wrappedSymbolizer: dsymSymbolizer)
 			updateContentView()
 		} catch let error {
-			Symbolizer.reportError(error, crashReport: crashReport!)
+			DSYMSymbolizer.reportError(error, crashReport: crashReport!)
 		}
 	}
 	

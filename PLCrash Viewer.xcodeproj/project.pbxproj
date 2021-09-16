@@ -17,7 +17,9 @@
 		3661AE6721B9134400961F2A /* libCrashReporter-MacOSX-Static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3661AE6621B9134400961F2A /* libCrashReporter-MacOSX-Static.a */; };
 		5B70726E21CAA7F9001749F1 /* PreferenceWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B70726C21CAA7F9001749F1 /* PreferenceWindow.xib */; };
 		5B70727121CAAB7C001749F1 /* PreferenceWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B70727021CAAB7C001749F1 /* PreferenceWindowController.swift */; };
-		5B70727321CABC7E001749F1 /* Symbolizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B70727221CABC7E001749F1 /* Symbolizer.swift */; };
+		5B70727321CABC7E001749F1 /* DSYMSymbolizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B70727221CABC7E001749F1 /* DSYMSymbolizer.swift */; };
+		5B85459F26F36A9B006F3CED /* CachingSymbolizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B85459E26F36A9B006F3CED /* CachingSymbolizer.swift */; };
+		5B8545A726F36B23006F3CED /* Symbolizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8545A626F36B23006F3CED /* Symbolizer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,7 +71,9 @@
 		3661AE6821B9138F00961F2A /* PLCrash Viewer-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PLCrash Viewer-Bridging-Header.h"; sourceTree = "<group>"; };
 		5B70726D21CAA7F9001749F1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/PreferenceWindow.xib; sourceTree = "<group>"; };
 		5B70727021CAAB7C001749F1 /* PreferenceWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceWindowController.swift; sourceTree = "<group>"; };
-		5B70727221CABC7E001749F1 /* Symbolizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Symbolizer.swift; sourceTree = "<group>"; };
+		5B70727221CABC7E001749F1 /* DSYMSymbolizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSYMSymbolizer.swift; sourceTree = "<group>"; };
+		5B85459E26F36A9B006F3CED /* CachingSymbolizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachingSymbolizer.swift; sourceTree = "<group>"; };
+		5B8545A626F36B23006F3CED /* Symbolizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Symbolizer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,7 +125,9 @@
 				3661AE3621B912B600961F2A /* MainMenu.xib */,
 				5B70726C21CAA7F9001749F1 /* PreferenceWindow.xib */,
 				5B70727021CAAB7C001749F1 /* PreferenceWindowController.swift */,
-				5B70727221CABC7E001749F1 /* Symbolizer.swift */,
+				5B8545A626F36B23006F3CED /* Symbolizer.swift */,
+				5B70727221CABC7E001749F1 /* DSYMSymbolizer.swift */,
+				5B85459E26F36A9B006F3CED /* CachingSymbolizer.swift */,
 				3661AE3921B912B600961F2A /* Info.plist */,
 				3661AE3A21B912B600961F2A /* PLCrash_Viewer.entitlements */,
 				3661AE6821B9138F00961F2A /* PLCrash Viewer-Bridging-Header.h */,
@@ -287,8 +293,10 @@
 			files = (
 				5B70727121CAAB7C001749F1 /* PreferenceWindowController.swift in Sources */,
 				3661AE3021B912B500961F2A /* Document.swift in Sources */,
-				5B70727321CABC7E001749F1 /* Symbolizer.swift in Sources */,
+				5B70727321CABC7E001749F1 /* DSYMSymbolizer.swift in Sources */,
+				5B85459F26F36A9B006F3CED /* CachingSymbolizer.swift in Sources */,
 				362BC2AD21BA7031000D37EA /* ThreadsViewDatasource.swift in Sources */,
+				5B8545A726F36B23006F3CED /* Symbolizer.swift in Sources */,
 				3661AE2E21B912B500961F2A /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
