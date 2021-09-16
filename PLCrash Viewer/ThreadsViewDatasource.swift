@@ -71,7 +71,8 @@ class ThreadsViewDatasource: NSObject, NSOutlineViewDelegate, NSOutlineViewDataS
 		let symbolInfo = stackFrame.symbolInfo
 		var symbolName = symbolInfo?.symbolName ?? "???"
 
-		let address = stackFrame.instructionPointer - 1
+		var address = stackFrame.instructionPointer
+		if address > 0 { address -= 1 }
 
 		if let image = crashReport.images.first as? BITPLCrashReportBinaryImageInfo,
 		   image.imageBaseAddress ..< (image.imageBaseAddress + image.imageSize) ~= address,
