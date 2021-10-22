@@ -7,7 +7,6 @@
 //
 
 import Cocoa
-import zlib
 
 class Document: NSDocument {
 
@@ -75,38 +74,12 @@ class Document: NSDocument {
 		throw NSError(domain: NSOSStatusErrorDomain, code: unimpErr, userInfo: nil)
 	}
 
-	override func read(from data: Data, ofType typeName: String) throws {
-		let prefix = data.prefix(7)
-		if prefix == "zplcrsh".data(using: .utf8) ||
-		   prefix == "zplhang".data(using: .utf8)
-		{
-			return try read(fromCompressedData: data.advanced(by: 7), ofType: typeName)
-		}
-		if prefix == "DIAGNOS".data(using: .utf8)
-		{
-			guard let range = data.range(of: "\n\n".data(using: .utf8)!) else {
-				throw NSError(domain: "at.eggerapps.PLCrash-Viewer", code: 1, userInfo: [NSLocalizedDescriptionKey: "Diagnostic file has invalid header"])
-			}
-			return try read(fromCompressedData: data.suffix(from: range.endIndex), ofType: typeName)
-		}
+	override func read(from wrappedData: Data, ofType typeName: String) throws {
+		let data = try uncompressCrashReport(data: wrappedData)
         crashReport = try BITPLCrashReport(data: data)
 		updateContentView()
 	}
 	
-	func read(fromCompressedData compressedData: Data, ofType typeName: String) throws {
-		let compressedBytes = [UInt8](compressedData)
-		var uncompressedBytes = [UInt8](repeating: 0, count: 1024*1024)
-		var uncompressedLength: UInt = UInt(uncompressedBytes.count)
-		let zlibResult = uncompress(&uncompressedBytes, &uncompressedLength, compressedBytes, UInt(compressedBytes.count))
-		guard zlibResult == Z_OK else {
-			if zlibResult == Z_BUF_ERROR { throw NSError(domain: "at.eggerapps.PLCrash-Viewer", code: 1, userInfo: [NSLocalizedDescriptionKey: "Uncompressed crash report to big", NSLocalizedRecoverySuggestionErrorKey: "Maximum uncompressed size is \(uncompressedBytes.count) bytes."]) }
-			if zlibResult == Z_DATA_ERROR { throw NSError(domain: "at.eggerapps.PLCrash-Viewer", code: 1, userInfo: [NSLocalizedDescriptionKey: "Compressed crash report corrupted", NSLocalizedRecoverySuggestionErrorKey: "The zlib stream was corrupted"]) }
-			throw NSError(domain: "at.eggerapps.PLCrash-Viewer", code: 1, userInfo: [NSLocalizedDescriptionKey: "Crash report could not be uncompressed", NSLocalizedRecoverySuggestionErrorKey: "uncompress() returned \(zlibResult)"])
-		}
-		let uncompressedData = Data(bytes: uncompressedBytes, count: Int(uncompressedLength))
-		return try read(from: uncompressedData, ofType: typeName)
-	}
-
 	@IBAction func symbolize(_: Any?) {
 		do {
 			let dsymSymbolizer = try DSYMSymbolizer.symbolizer(forCrashReport: crashReport!)

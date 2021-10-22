@@ -20,6 +20,8 @@
 		5B70727321CABC7E001749F1 /* DSYMSymbolizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B70727221CABC7E001749F1 /* DSYMSymbolizer.swift */; };
 		5B85459F26F36A9B006F3CED /* CachingSymbolizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B85459E26F36A9B006F3CED /* CachingSymbolizer.swift */; };
 		5B8545A726F36B23006F3CED /* Symbolizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8545A626F36B23006F3CED /* Symbolizer.swift */; };
+		5BF0B0B82722EB03005203AD /* CrashReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF0B0B72722EB03005203AD /* CrashReport.swift */; };
+		5BF0B0B92722EB1B005203AD /* CrashReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF0B0B72722EB03005203AD /* CrashReport.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +76,7 @@
 		5B70727221CABC7E001749F1 /* DSYMSymbolizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSYMSymbolizer.swift; sourceTree = "<group>"; };
 		5B85459E26F36A9B006F3CED /* CachingSymbolizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachingSymbolizer.swift; sourceTree = "<group>"; };
 		5B8545A626F36B23006F3CED /* Symbolizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Symbolizer.swift; sourceTree = "<group>"; };
+		5BF0B0B72722EB03005203AD /* CrashReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrashReport.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,6 +134,7 @@
 				3661AE3921B912B600961F2A /* Info.plist */,
 				3661AE3A21B912B600961F2A /* PLCrash_Viewer.entitlements */,
 				3661AE6821B9138F00961F2A /* PLCrash Viewer-Bridging-Header.h */,
+				5BF0B0B72722EB03005203AD /* CrashReport.swift */,
 			);
 			path = "PLCrash Viewer";
 			sourceTree = "<group>";
@@ -292,6 +296,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5B70727121CAAB7C001749F1 /* PreferenceWindowController.swift in Sources */,
+				5BF0B0B82722EB03005203AD /* CrashReport.swift in Sources */,
 				3661AE3021B912B500961F2A /* Document.swift in Sources */,
 				5B70727321CABC7E001749F1 /* DSYMSymbolizer.swift in Sources */,
 				5B85459F26F36A9B006F3CED /* CachingSymbolizer.swift in Sources */,
