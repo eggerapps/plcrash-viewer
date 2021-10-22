@@ -20,8 +20,14 @@
 		5B70727321CABC7E001749F1 /* DSYMSymbolizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B70727221CABC7E001749F1 /* DSYMSymbolizer.swift */; };
 		5B85459F26F36A9B006F3CED /* CachingSymbolizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B85459E26F36A9B006F3CED /* CachingSymbolizer.swift */; };
 		5B8545A726F36B23006F3CED /* Symbolizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8545A626F36B23006F3CED /* Symbolizer.swift */; };
+		5BB196512722FC01008F3942 /* DSYMSymbolizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B70727221CABC7E001749F1 /* DSYMSymbolizer.swift */; };
+		5BB196522722FC04008F3942 /* Symbolizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B8545A626F36B23006F3CED /* Symbolizer.swift */; };
+		5BF0B0B42722E689005203AD /* Arguments.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF0B0B12722E689005203AD /* Arguments.swift */; };
+		5BF0B0B52722E689005203AD /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF0B0B22722E689005203AD /* main.swift */; };
+		5BF0B0B62722E7A7005203AD /* libCrashReporter-MacOSX-Static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3661AE6621B9134400961F2A /* libCrashReporter-MacOSX-Static.a */; };
 		5BF0B0B82722EB03005203AD /* CrashReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF0B0B72722EB03005203AD /* CrashReport.swift */; };
 		5BF0B0B92722EB1B005203AD /* CrashReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF0B0B72722EB03005203AD /* CrashReport.swift */; };
+		5BF0B0BB2722ED4F005203AD /* JSONDump.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF0B0BA2722ED4F005203AD /* JSONDump.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,6 +39,18 @@
 			remoteInfo = "PLCrash Viewer";
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		5BF0B0A82722E67C005203AD /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		362BC2AC21BA7031000D37EA /* ThreadsViewDatasource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThreadsViewDatasource.swift; sourceTree = "<group>"; };
@@ -76,7 +94,12 @@
 		5B70727221CABC7E001749F1 /* DSYMSymbolizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSYMSymbolizer.swift; sourceTree = "<group>"; };
 		5B85459E26F36A9B006F3CED /* CachingSymbolizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CachingSymbolizer.swift; sourceTree = "<group>"; };
 		5B8545A626F36B23006F3CED /* Symbolizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Symbolizer.swift; sourceTree = "<group>"; };
+		5BF0B0AA2722E67C005203AD /* xplcrash2json */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = xplcrash2json; sourceTree = BUILT_PRODUCTS_DIR; };
+		5BF0B0B12722E689005203AD /* Arguments.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Arguments.swift; sourceTree = "<group>"; };
+		5BF0B0B22722E689005203AD /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = main.swift; path = "../../plcrash-tool-v2/xplcrash2json/main.swift"; sourceTree = "<group>"; };
+		5BF0B0B32722E689005203AD /* xplcrash2json-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "xplcrash2json-Bridging-Header.h"; sourceTree = "<group>"; };
 		5BF0B0B72722EB03005203AD /* CrashReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrashReport.swift; sourceTree = "<group>"; };
+		5BF0B0BA2722ED4F005203AD /* JSONDump.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDump.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +118,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		5BF0B0A72722E67C005203AD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5BF0B0B62722E7A7005203AD /* libCrashReporter-MacOSX-Static.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -103,6 +134,7 @@
 			children = (
 				3661AE2C21B912B500961F2A /* PLCrash Viewer */,
 				3661AE4221B912B600961F2A /* PLCrash ViewerTests */,
+				5BF0B0AB2722E67C005203AD /* xplcrash2json */,
 				3661AE2B21B912B500961F2A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -112,6 +144,7 @@
 			children = (
 				3661AE2A21B912B500961F2A /* PLCrash Viewer.app */,
 				3661AE3F21B912B600961F2A /* PLCrash ViewerTests.xctest */,
+				5BF0B0AA2722E67C005203AD /* xplcrash2json */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -187,6 +220,17 @@
 			path = Headers;
 			sourceTree = "<group>";
 		};
+		5BF0B0AB2722E67C005203AD /* xplcrash2json */ = {
+			isa = PBXGroup;
+			children = (
+				5BF0B0B22722E689005203AD /* main.swift */,
+				5BF0B0B32722E689005203AD /* xplcrash2json-Bridging-Header.h */,
+				5BF0B0B12722E689005203AD /* Arguments.swift */,
+				5BF0B0BA2722ED4F005203AD /* JSONDump.swift */,
+			);
+			path = xplcrash2json;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -225,13 +269,30 @@
 			productReference = 3661AE3F21B912B600961F2A /* PLCrash ViewerTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		5BF0B0A92722E67C005203AD /* xplcrash2json */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5BF0B0B02722E67C005203AD /* Build configuration list for PBXNativeTarget "xplcrash2json" */;
+			buildPhases = (
+				5BF0B0A62722E67C005203AD /* Sources */,
+				5BF0B0A72722E67C005203AD /* Frameworks */,
+				5BF0B0A82722E67C005203AD /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = xplcrash2json;
+			productName = xplcrash2json;
+			productReference = 5BF0B0AA2722E67C005203AD /* xplcrash2json */;
+			productType = "com.apple.product-type.tool";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		3661AE2221B912B500961F2A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1010;
+				LastSwiftUpdateCheck = 1300;
 				LastUpgradeCheck = 1010;
 				ORGANIZATIONNAME = "Egger Apps";
 				TargetAttributes = {
@@ -247,6 +308,9 @@
 					3661AE3E21B912B600961F2A = {
 						CreatedOnToolsVersion = 10.1;
 						TestTargetID = 3661AE2921B912B500961F2A;
+					};
+					5BF0B0A92722E67C005203AD = {
+						CreatedOnToolsVersion = 13.0;
 					};
 				};
 			};
@@ -265,6 +329,7 @@
 			targets = (
 				3661AE2921B912B500961F2A /* PLCrash Viewer */,
 				3661AE3E21B912B600961F2A /* PLCrash ViewerTests */,
+				5BF0B0A92722E67C005203AD /* xplcrash2json */,
 			);
 		};
 /* End PBXProject section */
@@ -311,6 +376,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				3661AE4421B912B600961F2A /* PLCrash_ViewerTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5BF0B0A62722E67C005203AD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5BF0B0B92722EB1B005203AD /* CrashReport.swift in Sources */,
+				5BB196522722FC04008F3942 /* Symbolizer.swift in Sources */,
+				5BF0B0BB2722ED4F005203AD /* JSONDump.swift in Sources */,
+				5BB196512722FC01008F3942 /* DSYMSymbolizer.swift in Sources */,
+				5BF0B0B42722E689005203AD /* Arguments.swift in Sources */,
+				5BF0B0B52722E689005203AD /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -556,6 +634,40 @@
 			};
 			name = Release;
 		};
+		5BF0B0AE2722E67C005203AD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_STYLE = Automatic;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Vendor/CrashReporter",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.3;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "xplcrash2json/xplcrash2json-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		5BF0B0AF2722E67C005203AD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CODE_SIGN_STYLE = Automatic;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Vendor/CrashReporter",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.3;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "xplcrash2json/xplcrash2json-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -582,6 +694,15 @@
 			buildConfigurations = (
 				3661AE4C21B912B600961F2A /* Debug */,
 				3661AE4D21B912B600961F2A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5BF0B0B02722E67C005203AD /* Build configuration list for PBXNativeTarget "xplcrash2json" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5BF0B0AE2722E67C005203AD /* Debug */,
+				5BF0B0AF2722E67C005203AD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
