@@ -82,11 +82,47 @@ class Document: NSDocument {
 	
 	@IBAction func symbolize(_: Any?) {
 		do {
-			let dsymSymbolizer = try DSYMSymbolizer.symbolizer(forCrashReport: crashReport!)
+			guard let rootFolders = UserDefaults.standard.stringArray(forKey: PreferenceWindowController.DSymRootFolderListKey)
+				else { throw SymbolizerError.dSymRootFolderKeyMissing }
+			guard let archivePattern = UserDefaults.standard.string(forKey: PreferenceWindowController.ArchiveFilePatternKey)
+				else { throw SymbolizerError.archiveFilePatternKeyMissing }
+			
+			let rootFolderURLs = rootFolders.map { URL(fileURLWithPath: $0) }
+			
+			let source = DSYMSymbolizer.Source.deepSearch(rootFolderURLs: rootFolderURLs, archivePattern: archivePattern)
+			let dsymSymbolizer = try DSYMSymbolizer.symbolizer(forCrashReport: crashReport!, source: source)
 			self.symbolizer = CachingSymbolizer(wrappedSymbolizer: dsymSymbolizer)
 			updateContentView()
 		} catch let error {
-			DSYMSymbolizer.reportError(error, crashReport: crashReport!)
+			Self.reportError(error, crashReport: crashReport!)
+		}
+	}
+	
+	static var alreadyReportedErrors = Set<String>()
+	static func reportError(_ error: Error, crashReport: BITPLCrashReport)
+	{
+		// NOTE: only report once, suppress error for multiple documents
+		//       (for example when restoring session with multiple documents)
+		let version = "\(crashReport.applicationInfo.applicationIdentifier!) build \(crashReport.applicationInfo.applicationVersion!)"
+		if alreadyReportedErrors.contains(version) { return }
+		else { alreadyReportedErrors.insert(version) }
+		
+		let alert = NSAlert(error: error)
+		alert.messageText =
+			"""
+			Unable to locate the dSYM file for \(version).\n
+			Please check the root folder configured in the user preferences
+			"""
+		if let rootFolder = UserDefaults.standard.string(forKey: PreferenceWindowController.DSymRootFolderListKey) {
+			alert.messageText += ":\n\(rootFolder)"
+		}
+		alert.addButton(withTitle: "Open Preferences")
+		alert.addButton(withTitle: "Cancel")
+		let response = alert.runModal()
+		if response == .alertFirstButtonReturn {
+			DispatchQueue.main.async {
+				PreferenceWindowController.sharedController.showWindow(self)
+			}
 		}
 	}
 	

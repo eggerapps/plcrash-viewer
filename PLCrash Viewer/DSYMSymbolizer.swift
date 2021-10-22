@@ -11,28 +11,20 @@ import Cocoa
 
 class DSYMSymbolizer: Symbolizer
 {
+	enum Source {
+		case deepSearch(rootFolderURLs: [URL], archivePattern: String)
+		case url(URL)
+	}
+	
 	// MARK: - Factory Method
 	
 	private static var sharedSymbolizersByBuildNumber = [String : DSYMSymbolizer]()
 	private static var didAlreadyReportError = false
 	
-	public class func symbolizer(forCrashReport crashReport: BITPLCrashReport) throws -> DSYMSymbolizer
+	private class func deepSearchURL(buildNumber: String,
+									 rootFolderURLs: [URL],
+									 archivePattern: String) throws -> URL
 	{
-		guard let buildNumber = crashReport.applicationInfo.applicationVersion else {
-			throw SymbolizerError.missingBuildNumber
-		}
-		
-		if let instance = sharedSymbolizersByBuildNumber[buildNumber] {
-			return instance
-		}
-		
-		guard let rootFolders = UserDefaults.standard.stringArray(forKey: PreferenceWindowController.DSymRootFolderListKey)
-			else { throw SymbolizerError.dSymRootFolderKeyMissing }
-		guard let archivePattern = UserDefaults.standard.string(forKey: PreferenceWindowController.ArchiveFilePatternKey)
-			else { throw SymbolizerError.archiveFilePatternKeyMissing }
-		
-		let rootFolderURLs = rootFolders.map { URL(fileURLWithPath: $0) }
-		
 		for rootFolderURL in rootFolderURLs {
 			let v = try rootFolderURL.resourceValues(forKeys: [.isDirectoryKey, .canonicalPathKey])
 			guard v.isDirectory == true else { throw SymbolizerError.dSymRootFolderKeyMissing }
@@ -93,36 +85,34 @@ class DSYMSymbolizer: Symbolizer
 			throw SymbolizerError.xcarchiveDoesNotContainDSYM
 		}
 		dsymArchive = dsymArchive.appendingPathComponent(content2)
-
-		let instance = DSYMSymbolizer(dsymURL: dsymArchive)
-		sharedSymbolizersByBuildNumber[buildNumber] = instance
-		return instance
+		return dsymArchive
 	}
 	
-	public class func reportError(_ error: Error, crashReport: BITPLCrashReport)
+	public class func symbolizer(forCrashReport crashReport: BITPLCrashReport,
+								 source: Source) throws -> DSYMSymbolizer
 	{
-		// NOTE: only report once, suppress error for multiple documents
-		//       (for example when restoring session with multiple documents)
-		if didAlreadyReportError { return }
-		else { didAlreadyReportError = true }
+		guard let buildNumber = crashReport.applicationInfo.applicationVersion else {
+			throw SymbolizerError.missingBuildNumber
+		}
 		
-		let alert = NSAlert(error: error)
-		alert.messageText =
-			"""
-			Unable to locate the dSYM file for \(crashReport.applicationInfo.applicationIdentifier!) build \(crashReport.applicationInfo.applicationVersion!).\n
-			Please check the root folder configured in the user preferences
-			"""
-		if let rootFolder = UserDefaults.standard.string(forKey: PreferenceWindowController.DSymRootFolderListKey) {
-			alert.messageText += ":\n\(rootFolder)"
+		if let instance = sharedSymbolizersByBuildNumber[buildNumber] {
+			return instance
 		}
-		alert.addButton(withTitle: "Open Preferences")
-		alert.addButton(withTitle: "Cancel")
-		let response = alert.runModal()
-		if response == .alertFirstButtonReturn {
-			DispatchQueue.main.async {
-				PreferenceWindowController.sharedController.showWindow(self)
-			}
+		
+		let url: URL
+		switch source {
+			case .url(let u):
+				url = u
+			
+			case .deepSearch(let rootFolderURLs, let archivePattern):
+				url = try deepSearchURL(buildNumber: buildNumber,
+										rootFolderURLs: rootFolderURLs,
+										archivePattern: archivePattern)
 		}
+		
+		let instance = DSYMSymbolizer(dsymURL: url)
+		sharedSymbolizersByBuildNumber[buildNumber] = instance
+		return instance
 	}
 	
 	// MARK: - Helper Methods
@@ -186,7 +176,7 @@ class DSYMSymbolizer: Symbolizer
 	
 	private let dsymURL: URL
 	
-	private init(dsymURL: URL) {
+	public init(dsymURL: URL) { // NOTE: for UI app, please use factory method symbolizer(forCrashReport:)
 		self.dsymURL = dsymURL
 	}
 	
