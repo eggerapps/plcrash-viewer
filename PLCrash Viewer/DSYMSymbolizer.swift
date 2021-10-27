@@ -224,7 +224,7 @@ class DSYMSymbolizer: Symbolizer
 			else { throw SymbolizerError.atosOutputNotReadable }
 		var results = [String]()
 		output.enumerateLines { line, _ in
-			results.append(line)
+			results.append(line.replacingOccurrences(of: " (in \(self.dsymURL.lastPathComponent))", with: ""))
 		}
 		return results
 	}
