@@ -110,7 +110,7 @@ class DSYMSymbolizer: Symbolizer
 										archivePattern: archivePattern)
 		}
 		
-		let instance = DSYMSymbolizer(dsymURL: url)
+		let instance = try DSYMSymbolizer(dsymURL: url)
 		sharedSymbolizersByBuildNumber[buildNumber] = instance
 		return instance
 	}
@@ -176,16 +176,44 @@ class DSYMSymbolizer: Symbolizer
 	
 	private let dsymURL: URL
 	
-	public init(dsymURL: URL) { // NOTE: for UI app, please use factory method symbolizer(forCrashReport:)
+	private let archForUUID: [UUID:String]
+	
+	public init(dsymURL: URL) throws { // NOTE: for UI app, please use factory method symbolizer(forCrashReport:)
 		self.dsymURL = dsymURL
+		
+		let pipe = Pipe()
+		let process = Process()
+		process.executableURL = URL(fileURLWithPath: "/usr/bin/dwarfdump")
+		process.arguments = ["-u", dsymURL.path]
+		process.standardOutput = pipe
+		try process.run()
+		let resultData = pipe.fileHandleForReading.readDataToEndOfFile()
+		guard let output = String(data: resultData, encoding: .utf8) else { throw SymbolizerError.couldntReadArchitecturesInDSYM }
+		var archForUUID = [UUID:String]()
+		let scanner = Scanner(string: output)
+		while true {
+			guard let _ = scanner.scanString("UUID:") else { break }
+			guard let uuid_str = scanner.scanCharacters(from: CharacterSet(charactersIn: "0123456789ABCDEFabcdef-")) else { break }
+			guard let uuid = UUID(uuidString: uuid_str) else { break }
+			guard let _ = scanner.scanString("(") else { break }
+			guard let arch = scanner.scanUpToString(")") else { break }
+			archForUUID[uuid] = arch
+			_ = scanner.scanUpToCharacters(from: .newlines)
+			_ = scanner.scanCharacters(from: .newlines)
+		}
+		guard archForUUID.count == 2 else {
+			throw SymbolizerError.unexpectedNumberOfArchitecturesInDSYM
+		}
+		self.archForUUID = archForUUID
 	}
 	
-	public func symbolize(imageLoadAddress: UInt64, stackAddresses: [UInt64]) throws -> [String] {
+	public func symbolize(imageUUID: UUID, imageLoadAddress: UInt64, stackAddresses: [UInt64]) throws -> [String] {
 		let pipe = Pipe()
-		
+		guard let arch = archForUUID[imageUUID] else { throw SymbolizerError.imageUUIDNotFoundInDSYM }
 		let process = Process()
 		process.executableURL = URL(fileURLWithPath: "/usr/bin/atos")
 		process.arguments = ["-o", dsymURL.path,
+							 "-arch", arch,
 							 "-l", String(format:"0x%2X", imageLoadAddress)] +
 							stackAddresses.map { String(format:"0x%2X", $0) }
 		process.standardOutput = pipe
@@ -199,5 +227,28 @@ class DSYMSymbolizer: Symbolizer
 			results.append(line)
 		}
 		return results
+	}
+}
+
+extension BITPLCrashReportBinaryImageInfo {
+	var uuid: UUID? {
+		guard var uuidstr = imageUUID else {
+			return nil
+		}
+		if let uuid = UUID(uuidString: uuidstr) {
+			return uuid
+		}
+		guard uuidstr.count == 32 else {
+			return nil
+		}
+		var index = uuidstr.index(uuidstr.startIndex, offsetBy: 8)
+		for _ in 1...4 {
+			uuidstr.insert("-", at: index)
+			index = uuidstr.index(index, offsetBy: 5)
+		}
+		if let uuid = UUID(uuidString: uuidstr) {
+			return uuid
+		}
+		return nil
 	}
 }

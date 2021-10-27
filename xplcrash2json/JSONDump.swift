@@ -144,7 +144,8 @@ extension BITPLCrashReportStackFrameInfo: DictionaryRepresentable {
 
 		if let image = context.image,
 		   image.imageBaseAddress ..< (image.imageBaseAddress + image.imageSize) ~= address,
-		   let symbols = try? context.symbolizer.symbolize(imageLoadAddress: image.imageBaseAddress,
+		   let symbols = try? context.symbolizer.symbolize(imageUUID: image.uuid!,
+														   imageLoadAddress: image.imageBaseAddress,
 														   stackAddresses: [address])
 		{
 			symbolName = symbols.first ?? "???"

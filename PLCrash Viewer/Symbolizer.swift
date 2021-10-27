@@ -17,9 +17,12 @@ enum SymbolizerError: CustomNSError
 	case xcarchiveFileNotUnzippable
 	case xcarchiveDoesNotContainDSYM
 	case atosOutputNotReadable
+	case couldntReadArchitecturesInDSYM
+	case unexpectedNumberOfArchitecturesInDSYM
+	case imageUUIDNotFoundInDSYM
 }
 
 protocol Symbolizer
 {
-	func symbolize(imageLoadAddress: UInt64, stackAddresses: [UInt64]) throws -> [String]
+	func symbolize(imageUUID: UUID, imageLoadAddress: UInt64, stackAddresses: [UInt64]) throws -> [String]
 }

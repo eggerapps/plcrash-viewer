@@ -76,7 +76,7 @@ class ThreadsViewDatasource: NSObject, NSOutlineViewDelegate, NSOutlineViewDataS
 
 		if let image = crashReport.images.first as? BITPLCrashReportBinaryImageInfo,
 		   image.imageBaseAddress ..< (image.imageBaseAddress + image.imageSize) ~= address,
-		   let symbols = try? symbolizer?.symbolize(imageLoadAddress: image.imageBaseAddress,
+		   let symbols = try? symbolizer?.symbolize(imageUUID: image.uuid!, imageLoadAddress: image.imageBaseAddress,
 													stackAddresses: [address])
 		{
 			symbolName = symbols?.first ?? "???"

@@ -12,6 +12,7 @@ class CachingSymbolizer: Symbolizer
 {
 	private var wrappedSymbolizer: Symbolizer
 	private struct CacheKey: Hashable {
+		var imageUUID: UUID
 		var imageLoadAddress: UInt64
 		var stackAddress: UInt64
 	}
@@ -21,12 +22,12 @@ class CachingSymbolizer: Symbolizer
 		self.wrappedSymbolizer = wrappedSymbolizer
 	}
 	
-	func symbolize(imageLoadAddress: UInt64, stackAddresses: [UInt64]) throws -> [String]
+	func symbolize(imageUUID: UUID, imageLoadAddress: UInt64, stackAddresses: [UInt64]) throws -> [String]
 	{
 		var symbols = [String]()
 		var missingAddresses = [(Int, UInt64)]() // patch later
 		for (idx, address) in stackAddresses.enumerated() {
-			let key = CacheKey(imageLoadAddress: imageLoadAddress, stackAddress: address)
+			let key = CacheKey(imageUUID: imageUUID, imageLoadAddress: imageLoadAddress, stackAddress: address)
 			if let symbol = cache[key] {
 				symbols.append(symbol)
 			} else {
@@ -35,12 +36,12 @@ class CachingSymbolizer: Symbolizer
 			}
 		}
 		if !missingAddresses.isEmpty {
-			let resolvedSymbols = try wrappedSymbolizer.symbolize(imageLoadAddress: imageLoadAddress, stackAddresses: missingAddresses.map { $0.1 } )
+			let resolvedSymbols = try wrappedSymbolizer.symbolize(imageUUID: imageUUID, imageLoadAddress: imageLoadAddress, stackAddresses: missingAddresses.map { $0.1 } )
 			for (i, symbol) in resolvedSymbols.enumerated() {
 				let fixupIdx = missingAddresses[i].0
 				symbols[fixupIdx] = symbol
 				
-				let cacheKey = CacheKey(imageLoadAddress: imageLoadAddress, stackAddress: missingAddresses[i].1)
+				let cacheKey = CacheKey(imageUUID: imageUUID, imageLoadAddress: imageLoadAddress, stackAddress: missingAddresses[i].1)
 				cache[cacheKey] = symbol
 			}
 		}
