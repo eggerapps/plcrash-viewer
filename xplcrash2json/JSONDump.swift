@@ -75,7 +75,7 @@ extension BITPLCrashReportMachineInfo: DictionaryRepresentable {
 	func dictionary(_ context: JSONDumpContext) -> [String: Any?] {
 		return [
 			"model_name" : self.modelName,
-			// "processor_info" : self.processorInfo.dictionary(context),
+			"processor_info" : self.processorInfo.dictionary(context),
 			"processor_count" : self.processorCount,
 			"logical_processor_count" : self.logicalProcessorCount,
 		]
@@ -196,8 +196,26 @@ extension BITPLCrashReportProcessorInfo: DictionaryRepresentable {
 		return [
 			"type_encoding" : self.typeEncoding.rawValue,
 			"type" : type,
-			"subtype" : subtype
+			"subtype" : subtype,
+			"architecture" : architecture
 		]
+	}
+	
+	var architecture: String? {
+		if typeEncoding != PLCrashReportProcessorTypeEncodingMach {
+			return "unknown"
+		}
+		let cputype = cpu_type_t(type)
+		if cputype | CPU_TYPE_ARM64 != 0 {
+			return "arm64"
+		}
+		if cputype | CPU_TYPE_X86_64 != 0 {
+			return "x86_64"
+		}
+		if cputype | CPU_TYPE_I386 != 0 {
+			return "i386"
+		}
+		return "unknown"
 	}
 }
 
