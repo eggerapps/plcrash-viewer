@@ -43,7 +43,7 @@ extension BITPLCrashReport: DictionaryRepresentable {
 			"mach_exception_info" : self.machExceptionInfo?.dictionary(context),
 			"exception_info" : self.exceptionInfo?.dictionary(context),
 			"threads" : (self.threads as? [BITPLCrashReportThreadInfo])?.map { $0.dictionary(context) },
-			"images" : (self.threads as? [BITPLCrashReportBinaryImageInfo])?.map { $0.dictionary(context) },
+			"images" : (self.images as? [BITPLCrashReportBinaryImageInfo])?.map { $0.dictionary(context) },
 		]
 	}
 }
