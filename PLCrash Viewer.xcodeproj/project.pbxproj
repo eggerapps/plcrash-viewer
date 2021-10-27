@@ -96,7 +96,7 @@
 		5B8545A626F36B23006F3CED /* Symbolizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Symbolizer.swift; sourceTree = "<group>"; };
 		5BF0B0AA2722E67C005203AD /* xplcrash2json */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = xplcrash2json; sourceTree = BUILT_PRODUCTS_DIR; };
 		5BF0B0B12722E689005203AD /* Arguments.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Arguments.swift; sourceTree = "<group>"; };
-		5BF0B0B22722E689005203AD /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = main.swift; path = "../../plcrash-tool-v2/xplcrash2json/main.swift"; sourceTree = "<group>"; };
+		5BF0B0B22722E689005203AD /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		5BF0B0B32722E689005203AD /* xplcrash2json-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "xplcrash2json-Bridging-Header.h"; sourceTree = "<group>"; };
 		5BF0B0B72722EB03005203AD /* CrashReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrashReport.swift; sourceTree = "<group>"; };
 		5BF0B0BA2722ED4F005203AD /* JSONDump.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDump.swift; sourceTree = "<group>"; };
