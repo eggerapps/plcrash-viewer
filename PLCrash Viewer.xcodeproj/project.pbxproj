@@ -562,6 +562,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Vendor/CrashReporter",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_BUNDLE_IDENTIFIER = "at.eggerapps.PLCrash-Viewer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "PLCrash Viewer/PLCrash Viewer-Bridging-Header.h";
@@ -587,6 +588,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Vendor/CrashReporter",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_BUNDLE_IDENTIFIER = "at.eggerapps.PLCrash-Viewer";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "PLCrash Viewer/PLCrash Viewer-Bridging-Header.h";
@@ -644,7 +646,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Vendor/CrashReporter",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.3;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "xplcrash2json/xplcrash2json-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
@@ -661,7 +663,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Vendor/CrashReporter",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.3;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "xplcrash2json/xplcrash2json-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
