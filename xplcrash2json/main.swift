@@ -25,8 +25,7 @@ guard let buildNumber = crashReport.applicationInfo.applicationVersion else {
 	exit(1)
 }
 
-let path = args.symbolPathPattern.replacingOccurrences(of: args.placeholder, with: buildNumber)
-let dsymURL = URL(fileURLWithPath: path)
+let dsymURL: URL = args.dsymURL(for: buildNumber)
 
 let symbolizer: Symbolizer
 do {

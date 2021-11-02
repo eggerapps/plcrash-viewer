@@ -16,6 +16,12 @@ struct Arguments {
 	
 	let read: () -> Data
 	let write: (Data) -> ()
+	
+	func dsymURL(for buildNumber: String) -> URL {
+		let path = args.symbolPathPattern.replacingOccurrences(of: args.placeholder, with: buildNumber)
+		let dsymURL = URL(fileURLWithPath: path)
+		return dsymURL
+	}
 }
 
 func printUsage() {
