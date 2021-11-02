@@ -29,7 +29,8 @@ let dsymURL: URL = args.dsymURL(for: buildNumber)
 
 let symbolizer: Symbolizer
 do {
-	symbolizer = try DSYMSymbolizer.symbolizer(forCrashReport: crashReport, source: .url(dsymURL))
+	let dsymSymbolizer = try DSYMSymbolizer.symbolizer(forCrashReport: crashReport, source: .url(dsymURL))
+	symbolizer = CachingSymbolizer(wrappedSymbolizer: dsymSymbolizer)
 } catch let error {
 	fputs("Failed to create Symbolizer: \(error.localizedDescription)\n", stderr)
 	exit(1)

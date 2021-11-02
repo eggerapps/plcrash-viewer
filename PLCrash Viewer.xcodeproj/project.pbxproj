@@ -15,6 +15,7 @@
 		3661AE3821B912B600961F2A /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3661AE3621B912B600961F2A /* MainMenu.xib */; };
 		3661AE4421B912B600961F2A /* PLCrash_ViewerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3661AE4321B912B600961F2A /* PLCrash_ViewerTests.swift */; };
 		3661AE6721B9134400961F2A /* libCrashReporter-MacOSX-Static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3661AE6621B9134400961F2A /* libCrashReporter-MacOSX-Static.a */; };
+		5B4368EB2731B77B007F2E53 /* CachingSymbolizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B85459E26F36A9B006F3CED /* CachingSymbolizer.swift */; };
 		5B70726E21CAA7F9001749F1 /* PreferenceWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5B70726C21CAA7F9001749F1 /* PreferenceWindow.xib */; };
 		5B70727121CAAB7C001749F1 /* PreferenceWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B70727021CAAB7C001749F1 /* PreferenceWindowController.swift */; };
 		5B70727321CABC7E001749F1 /* DSYMSymbolizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B70727221CABC7E001749F1 /* DSYMSymbolizer.swift */; };
@@ -386,6 +387,7 @@
 				5BF0B0B92722EB1B005203AD /* CrashReport.swift in Sources */,
 				5BB196522722FC04008F3942 /* Symbolizer.swift in Sources */,
 				5BF0B0BB2722ED4F005203AD /* JSONDump.swift in Sources */,
+				5B4368EB2731B77B007F2E53 /* CachingSymbolizer.swift in Sources */,
 				5BB196512722FC01008F3942 /* DSYMSymbolizer.swift in Sources */,
 				5BF0B0B42722E689005203AD /* Arguments.swift in Sources */,
 				5BF0B0B52722E689005203AD /* main.swift in Sources */,
