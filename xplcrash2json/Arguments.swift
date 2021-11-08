@@ -10,9 +10,11 @@ import Foundation
 
 struct Arguments {
 	static let DefaultPlaceholder = "{CFBundleVersion}"
+	static let DefaultInstructionPointerDecrement: UInt64 = 1
 	
 	let symbolPathPattern: String
 	let placeholder: String
+	let instructionPointerDecrement: UInt64
 	
 	let read: () -> Data
 	let write: (Data) -> ()
@@ -32,6 +34,7 @@ func printUsage() {
 
 		\t-s <path-pattern>\tpattern where to find dSYM files, must include placeholder
 		\t-p <placeholder>\tdefault: \(Arguments.DefaultPlaceholder)\n
+		\t-d <decrement>\tinstruction pointer decrement, default: \(Arguments.DefaultInstructionPointerDecrement)\n
 		\t-i <input-path>\tpath to crash report\n
 		\t-o <output-path>\toutput path for JSON dump\n
 		""", stderr)
@@ -42,6 +45,7 @@ func parseArguments() -> Arguments {
 	var outputPath: String!
 	var symbolPathPattern: String!
 	var placeholder: String!
+	var instructionPointerDecrement: UInt64!
 	
 	var i = 1
 	while i < CommandLine.arguments.count {
@@ -69,6 +73,12 @@ func parseArguments() -> Arguments {
 				symbolPathPattern = CommandLine.arguments[i]
 				i += 1
 			
+			case "-d":
+				guard i < CommandLine.arguments.count else { printUsage(); exit(1) }
+				guard let d = UInt64(CommandLine.arguments[i]) else { printUsage(); exit(1) }
+				instructionPointerDecrement = d
+				i += 1
+			
 			default:
 				fputs("Unexpected argument: \(arg)\n\n", stderr)
 				printUsage()
@@ -84,6 +94,8 @@ func parseArguments() -> Arguments {
 	
 	if placeholder == nil { placeholder = Arguments.DefaultPlaceholder }
 
+	if instructionPointerDecrement == nil { instructionPointerDecrement = Arguments.DefaultInstructionPointerDecrement }
+	
 	guard symbolPathPattern.contains(placeholder) else {
 		fputs("Symbol path must contain placeholder \(placeholder!)\n\n", stderr)
 		printUsage()
@@ -143,6 +155,7 @@ func parseArguments() -> Arguments {
 	
 	return Arguments(symbolPathPattern: symbolPathPattern,
 					 placeholder: placeholder,
+					 instructionPointerDecrement: instructionPointerDecrement,
 					 read: read,
 					 write: write)
 }

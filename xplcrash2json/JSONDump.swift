@@ -9,10 +9,13 @@
 import Foundation
 import PLCrash_Viewer
 
-func jsonDump(crashReport: BITPLCrashReport, symbolizer: Symbolizer) throws -> Data
+func jsonDump(args: Arguments,
+			  crashReport: BITPLCrashReport,
+			  symbolizer: Symbolizer) throws -> Data
 {
 	let image = crashReport.images.first as? BITPLCrashReportBinaryImageInfo
-	let context = JSONDumpContext(crashReport: crashReport,
+	let context = JSONDumpContext(args: args,
+								  crashReport: crashReport,
 								  image: image,
 								  symbolizer: symbolizer)
 	let dict = crashReport.dictionary(context)
@@ -22,6 +25,7 @@ func jsonDump(crashReport: BITPLCrashReport, symbolizer: Symbolizer) throws -> D
 // MARK: - Dump Implementation
 
 struct JSONDumpContext {
+	let args: Arguments
 	let crashReport: BITPLCrashReport
 	let image: BITPLCrashReportBinaryImageInfo?
 	let symbolizer: Symbolizer
@@ -140,7 +144,7 @@ extension BITPLCrashReportStackFrameInfo: DictionaryRepresentable {
 		var symbolName = self.symbolInfo?.symbolName ?? "???"
 
 		var address = self.instructionPointer
-		if address > 0 { address -= 1 }
+		if address > 0 { address -= context.args.instructionPointerDecrement }
 
 		if let image = context.image,
 		   image.imageBaseAddress ..< (image.imageBaseAddress + image.imageSize) ~= address,

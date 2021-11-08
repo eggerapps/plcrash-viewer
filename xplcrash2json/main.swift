@@ -38,7 +38,7 @@ do {
 
 let json: Data
 do {
-	json = try jsonDump(crashReport: crashReport, symbolizer: symbolizer)
+	json = try jsonDump(args: args, crashReport: crashReport, symbolizer: symbolizer)
 } catch let error {
 	fputs("Failed to dump crash report: \(error.localizedDescription)\n", stderr)
 	exit(1)
