@@ -16,7 +16,7 @@ func jsonDump(crashReport: BITPLCrashReport, symbolizer: Symbolizer) throws -> D
 								  image: image,
 								  symbolizer: symbolizer)
 	let dict = crashReport.dictionary(context)
-	return try JSONSerialization.data(withJSONObject: dict, options: .prettyPrinted)
+	return try JSONSerialization.data(withJSONObject: dict, options: [.prettyPrinted, .sortedKeys])
 }
 
 // MARK: - Dump Implementation
