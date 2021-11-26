@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import PLCrash_Viewer
 
 func jsonDump(args: Arguments,
 			  crashReport: BITPLCrashReport,

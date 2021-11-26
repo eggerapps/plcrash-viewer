@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import PLCrash_Viewer
 
 let args = parseArguments()
 
