@@ -10,10 +10,10 @@ import Foundation
 
 let args = parseArguments()
 
-let crashReport: BITPLCrashReport
+let crashReport: PLCrashReport
 do {
 	let data = try uncompressCrashReport(data: args.read())
-	crashReport = try BITPLCrashReport(data: data)
+	crashReport = try PLCrashReport(data: data)
 } catch let error {
 	fputs("Failed to parse crash report: \(error.localizedDescription)\n", stderr)
 	exit(1)

@@ -12,12 +12,12 @@ class ThreadsViewDatasource: NSObject, NSOutlineViewDelegate, NSOutlineViewDataS
 	
 	// MARK: - Properties
 	
-	let crashReport: BITPLCrashReport
+	let crashReport: PLCrashReport
 	let symbolizer: Symbolizer?
 	
 	// MARK: - Initializer
 	
-	init(crashReport: BITPLCrashReport, symbolizer: Symbolizer?) {
+	init(crashReport: PLCrashReport, symbolizer: Symbolizer?) {
 		self.crashReport = crashReport
 		self.symbolizer = symbolizer
 	}
@@ -26,10 +26,10 @@ class ThreadsViewDatasource: NSObject, NSOutlineViewDelegate, NSOutlineViewDataS
 
 	func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
 		if let item = item {
-			if let thread = item as? BITPLCrashReportThreadInfo {
+			if let thread = item as? PLCrashReportThreadInfo {
 				return thread.stackFrames.count
 			}
-			if let exceptionInfo = item as? BITPLCrashReportExceptionInfo {
+			if let exceptionInfo = item as? PLCrashReportExceptionInfo {
 				return exceptionInfo.stackFrames.count
 			}
 			else {
@@ -52,29 +52,29 @@ class ThreadsViewDatasource: NSObject, NSOutlineViewDelegate, NSOutlineViewDataS
 				return crashReport.threads[index]
 			}
 		}
-		if let thread = item as? BITPLCrashReportThreadInfo {
+		if let thread = item as? PLCrashReportThreadInfo {
 			return thread.stackFrames[index]
 		}
-		if let exceptionInfo = item as? BITPLCrashReportExceptionInfo {
+		if let exceptionInfo = item as? PLCrashReportExceptionInfo {
 			return exceptionInfo.stackFrames[index]
 		}
 		fatalError("Invalid Item in Outline View")
 	}
 	
 	func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool {
-		if item is BITPLCrashReportThreadInfo { return true }
-		if item is BITPLCrashReportExceptionInfo { return true }
+		if item is PLCrashReportThreadInfo { return true }
+		if item is PLCrashReportExceptionInfo { return true }
 		return false
 	}
 	
-	private func symbolName(for stackFrame: BITPLCrashReportStackFrameInfo) -> String {
+	private func symbolName(for stackFrame: PLCrashReportStackFrameInfo) -> String {
 		let symbolInfo = stackFrame.symbolInfo
 		var symbolName = symbolInfo?.symbolName ?? "???"
 
 		var address = stackFrame.instructionPointer
 		if address > 0 { address -= 1 }
 
-		if let image = crashReport.images.first as? BITPLCrashReportBinaryImageInfo,
+		if let image = crashReport.images.first as? PLCrashReportBinaryImageInfo,
 		   image.imageBaseAddress ..< (image.imageBaseAddress + image.imageSize) ~= address,
 		   let symbols = try? symbolizer?.symbolize(imageUUID: image.uuid!, imageLoadAddress: image.imageBaseAddress,
 													stackAddresses: [address])
@@ -84,13 +84,13 @@ class ThreadsViewDatasource: NSObject, NSOutlineViewDelegate, NSOutlineViewDataS
 		return symbolName
 	}
 	
-	private func instructionPointer(for stackFrame: BITPLCrashReportStackFrameInfo) -> String {
+	private func instructionPointer(for stackFrame: PLCrashReportStackFrameInfo) -> String {
 		NSString(format: "0x%x", stackFrame.instructionPointer) as String
 	}
 	
-	private func imageName(for stackFrame: BITPLCrashReportStackFrameInfo) -> String {
+	private func imageName(for stackFrame: PLCrashReportStackFrameInfo) -> String {
 		var imageName = "???"
-		for image in crashReport.images as! [BITPLCrashReportBinaryImageInfo] {
+		for image in crashReport.images as! [PLCrashReportBinaryImageInfo] {
 			if image.imageBaseAddress <= stackFrame.instructionPointer && stackFrame.instructionPointer < image.imageBaseAddress + image.imageSize {
 				imageName = (image.imageName as NSString?)?.lastPathComponent ?? "???"
 			}
@@ -103,7 +103,7 @@ class ThreadsViewDatasource: NSObject, NSOutlineViewDelegate, NSOutlineViewDataS
 		let view = outlineView.makeView(withIdentifier: identifier, owner: nil)
 		guard let tableCellView = view as? NSTableCellView else { fatalError("Unexpected View") }
 		let stringValue: String
-		if let thread = item as? BITPLCrashReportThreadInfo {
+		if let thread = item as? PLCrashReportThreadInfo {
 			if identifier == NSUserInterfaceItemIdentifier(rawValue: "#") { 
 				stringValue = "Thread \(thread.threadNumber)"
 				tableCellView.textField?.alignment = .left
@@ -111,7 +111,7 @@ class ThreadsViewDatasource: NSObject, NSOutlineViewDelegate, NSOutlineViewDataS
 				stringValue = ""
 			}
 		}
-		else if let stackFrame = item as? BITPLCrashReportStackFrameInfo {
+		else if let stackFrame = item as? PLCrashReportStackFrameInfo {
 			if identifier == NSUserInterfaceItemIdentifier(rawValue: "#") { 
 				stringValue = "#\(outlineView.childIndex(forItem: item))"
 				tableCellView.textField?.alignment = .right
@@ -131,7 +131,7 @@ class ThreadsViewDatasource: NSObject, NSOutlineViewDelegate, NSOutlineViewDataS
 				stringValue = ""
 			}
 		}
-		else if let exception = item as? BITPLCrashReportExceptionInfo {
+		else if let exception = item as? PLCrashReportExceptionInfo {
 			if identifier == NSUserInterfaceItemIdentifier(rawValue: "#") { 
 				stringValue = exception.exceptionName ?? "Exception"
 			}
@@ -163,15 +163,15 @@ class ThreadsViewDatasource: NSObject, NSOutlineViewDelegate, NSOutlineViewDataS
 		var rows = [ headerCells ]
 		
 		for item in items {
-			guard !(item is BITPLCrashReportThreadInfo) else {
+			guard !(item is PLCrashReportThreadInfo) else {
 				continue
 			}
 			var row = [String]()
 			
-			if let stackFrame = item as? BITPLCrashReportStackFrameInfo {
+			if let stackFrame = item as? PLCrashReportStackFrameInfo {
 				guard let parent = outlineView.parent(forItem: item) else { continue }
 				
-				if let thread = parent as? BITPLCrashReportThreadInfo {
+				if let thread = parent as? PLCrashReportThreadInfo {
 					row.append("\(thread.threadNumber)")
 				}
 				
@@ -180,7 +180,7 @@ class ThreadsViewDatasource: NSObject, NSOutlineViewDelegate, NSOutlineViewDataS
 				row.append(instructionPointer(for: stackFrame))
 				row.append(symbolName(for: stackFrame))
 			}
-			else if let exception = item as? BITPLCrashReportExceptionInfo {
+			else if let exception = item as? PLCrashReportExceptionInfo {
 				row.append(exception.exceptionName ?? "Exception")
 				row.append("")
 				row.append("")

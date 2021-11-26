@@ -18,14 +18,14 @@ class Document: NSDocument {
 		contentView.enclosingScrollView!.isHidden = (sender.selectedSegment != 1)
 	}
 	
-	var crashReport: BITPLCrashReport?
+	var crashReport: PLCrashReport?
 	var threadsViewDatasource: ThreadsViewDatasource?
 	var symbolizer: Symbolizer?
 	
 	func updateContentView() {
 		if let contentView = contentView {
 			if let crashReport = crashReport {
-				contentView.string = BITPLCrashReportTextFormatter.stringValue(for: crashReport, with: PLCrashReportTextFormatiOS)
+				contentView.string = PLCrashReportTextFormatter.stringValue(for: crashReport, with: PLCrashReportTextFormatiOS)
 			} else {
 				contentView.string = ""
 			}
@@ -43,7 +43,7 @@ class Document: NSDocument {
 				if let e = crashReport.exceptionInfo {
 					threadsView.expandItem(e)
 				} else {
-					for thread in crashReport.threads as! [BITPLCrashReportThreadInfo] {
+					for thread in crashReport.threads as! [PLCrashReportThreadInfo] {
 						if thread.crashed {
 							threadsView.expandItem(thread)
 						}
@@ -76,7 +76,7 @@ class Document: NSDocument {
 
 	override func read(from wrappedData: Data, ofType typeName: String) throws {
 		let data = try uncompressCrashReport(data: wrappedData)
-        crashReport = try BITPLCrashReport(data: data)
+        crashReport = try PLCrashReport(data: data)
 		updateContentView()
 	}
 	
@@ -99,7 +99,7 @@ class Document: NSDocument {
 	}
 	
 	static var alreadyReportedErrors = Set<String>()
-	static func reportError(_ error: Error, crashReport: BITPLCrashReport)
+	static func reportError(_ error: Error, crashReport: PLCrashReport)
 	{
 		// NOTE: only report once, suppress error for multiple documents
 		//       (for example when restoring session with multiple documents)

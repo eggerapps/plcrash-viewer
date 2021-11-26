@@ -32,13 +32,22 @@
 #import <AvailabilityMacros.h>
 #endif
 
+#if __has_include(<CrashReporter/PLCrashReport.h>)
+
 // This must be included before any other PLCrashReporter includes, as
 // it redefines symbol names
-#import "PLCrashNamespace.h"
+#import <CrashReporter/PLCrashNamespace.h>
 
+/* Library Imports */
+#import <CrashReporter/PLCrashReporter.h>
+#import <CrashReporter/PLCrashReport.h>
+#import <CrashReporter/PLCrashReportTextFormatter.h>
+#else
+#import "PLCrashNamespace.h"
 #import "PLCrashReporter.h"
 #import "PLCrashReport.h"
 #import "PLCrashReportTextFormatter.h"
+#endif
 
 /**
  * @defgroup functions Crash Reporter Functions Reference
@@ -97,12 +106,6 @@ typedef enum {
     /** An attempt to use a resource which was in use at the time in a manner which would have conflicted with the request. */
     PLCrashReporterErrorResourceBusy = 3
 } PLCrashReporterError;
-
-
-/* Library Imports */
-#import "PLCrashReporter.h"
-#import "PLCrashReport.h"
-#import "PLCrashReportTextFormatter.h"
 
 /**
  * @mainpage Plausible Crash Reporter

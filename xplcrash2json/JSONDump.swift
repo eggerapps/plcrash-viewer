@@ -9,10 +9,10 @@
 import Foundation
 
 func jsonDump(args: Arguments,
-			  crashReport: BITPLCrashReport,
+			  crashReport: PLCrashReport,
 			  symbolizer: Symbolizer) throws -> Data
 {
-	let image = crashReport.images.first as? BITPLCrashReportBinaryImageInfo
+	let image = crashReport.images.first as? PLCrashReportBinaryImageInfo
 	let context = JSONDumpContext(args: args,
 								  crashReport: crashReport,
 								  image: image,
@@ -25,8 +25,8 @@ func jsonDump(args: Arguments,
 
 struct JSONDumpContext {
 	let args: Arguments
-	let crashReport: BITPLCrashReport
-	let image: BITPLCrashReportBinaryImageInfo?
+	let crashReport: PLCrashReport
+	let image: PLCrashReportBinaryImageInfo?
 	let symbolizer: Symbolizer
 }
 
@@ -34,7 +34,7 @@ protocol DictionaryRepresentable {
 	func dictionary(_ context: JSONDumpContext) -> [String: Any?]
 }
 
-extension BITPLCrashReport: DictionaryRepresentable {
+extension PLCrashReport: DictionaryRepresentable {
 	func dictionary(_ context: JSONDumpContext) -> [String: Any?] {
 		return [
 			"uuid" : CFUUIDCreateString(nil, self.uuidRef),
@@ -45,13 +45,13 @@ extension BITPLCrashReport: DictionaryRepresentable {
 			"signal_info" : self.signalInfo?.dictionary(context),
 			"mach_exception_info" : self.machExceptionInfo?.dictionary(context),
 			"exception_info" : self.exceptionInfo?.dictionary(context),
-			"threads" : (self.threads as? [BITPLCrashReportThreadInfo])?.map { $0.dictionary(context) },
-			"images" : (self.images as? [BITPLCrashReportBinaryImageInfo])?.map { $0.dictionary(context) },
+			"threads" : (self.threads as? [PLCrashReportThreadInfo])?.map { $0.dictionary(context) },
+			"images" : (self.images as? [PLCrashReportBinaryImageInfo])?.map { $0.dictionary(context) },
 		]
 	}
 }
 
-extension BITPLCrashReportSystemInfo: DictionaryRepresentable {
+extension PLCrashReportSystemInfo: DictionaryRepresentable {
 	var architectureString: String {
 		switch self.architecture.rawValue { // see PLCrashReportSystemInfo.h
 			case 0: return "x86-32"
@@ -74,7 +74,7 @@ extension BITPLCrashReportSystemInfo: DictionaryRepresentable {
 	}
 }
 
-extension BITPLCrashReportMachineInfo: DictionaryRepresentable {
+extension PLCrashReportMachineInfo: DictionaryRepresentable {
 	func dictionary(_ context: JSONDumpContext) -> [String: Any?] {
 		return [
 			"model_name" : self.modelName,
@@ -85,7 +85,7 @@ extension BITPLCrashReportMachineInfo: DictionaryRepresentable {
 	}
 }
 
-extension BITPLCrashReportApplicationInfo: DictionaryRepresentable {
+extension PLCrashReportApplicationInfo: DictionaryRepresentable {
 	func dictionary(_ context: JSONDumpContext) -> [String: Any?] {
 		return [
 			"identifier" : self.applicationIdentifier,
@@ -95,7 +95,7 @@ extension BITPLCrashReportApplicationInfo: DictionaryRepresentable {
 	}
 }
 
-extension BITPLCrashReportProcessInfo: DictionaryRepresentable {
+extension PLCrashReportProcessInfo: DictionaryRepresentable {
 	func dictionary(_ context: JSONDumpContext) -> [String: Any?] {
 		return [
 			"process_name" : self.processName,
@@ -109,7 +109,7 @@ extension BITPLCrashReportProcessInfo: DictionaryRepresentable {
 	}
 }
 
-extension BITPLCrashReportSignalInfo: DictionaryRepresentable {
+extension PLCrashReportSignalInfo: DictionaryRepresentable {
 	func dictionary(_ context: JSONDumpContext) -> [String: Any?] {
 		return [
 			"name" : self.name,
@@ -119,7 +119,7 @@ extension BITPLCrashReportSignalInfo: DictionaryRepresentable {
 	}
 }
 
-extension BITPLCrashReportMachExceptionInfo: DictionaryRepresentable {
+extension PLCrashReportMachExceptionInfo: DictionaryRepresentable {
 	func dictionary(_ context: JSONDumpContext) -> [String: Any?] {
 		return [
 			"type" : self.type,
@@ -128,7 +128,7 @@ extension BITPLCrashReportMachExceptionInfo: DictionaryRepresentable {
 	}
 }
 
-extension BITPLCrashReportSymbolInfo: DictionaryRepresentable {
+extension PLCrashReportSymbolInfo: DictionaryRepresentable {
 	func dictionary(_ context: JSONDumpContext) -> [String: Any?] {
 		return [
 			"symbol_name" : self.symbolName,
@@ -138,7 +138,7 @@ extension BITPLCrashReportSymbolInfo: DictionaryRepresentable {
 	}
 }
 
-extension BITPLCrashReportStackFrameInfo: DictionaryRepresentable {
+extension PLCrashReportStackFrameInfo: DictionaryRepresentable {
 	func symbolizedName(_ context: JSONDumpContext) -> String {
 		var symbolName = self.symbolInfo?.symbolName ?? "???"
 
@@ -165,17 +165,17 @@ extension BITPLCrashReportStackFrameInfo: DictionaryRepresentable {
 	}
 }
 
-extension BITPLCrashReportExceptionInfo: DictionaryRepresentable {
+extension PLCrashReportExceptionInfo: DictionaryRepresentable {
 	func dictionary(_ context: JSONDumpContext) -> [String: Any?] {
 		return [
 			"exception_name" : self.exceptionName,
 			"exception_reason" : self.exceptionReason,
-			"stack_frames" : (self.stackFrames as? [BITPLCrashReportStackFrameInfo])?.map { $0.dictionary(context) },
+			"stack_frames" : (self.stackFrames as? [PLCrashReportStackFrameInfo])?.map { $0.dictionary(context) },
 		]
 	}
 }
 
-extension BITPLCrashReportRegisterInfo: DictionaryRepresentable {
+extension PLCrashReportRegisterInfo: DictionaryRepresentable {
 	func dictionary(_ context: JSONDumpContext) -> [String: Any?] {
 		return [
 			"name" : self.registerName,
@@ -184,18 +184,18 @@ extension BITPLCrashReportRegisterInfo: DictionaryRepresentable {
 	}
 }
 
-extension BITPLCrashReportThreadInfo: DictionaryRepresentable {
+extension PLCrashReportThreadInfo: DictionaryRepresentable {
 	func dictionary(_ context: JSONDumpContext) -> [String: Any?] {
 		return [
 			"thread_number" : self.threadNumber,
-			"stack_frames" : (self.stackFrames as? [BITPLCrashReportStackFrameInfo])?.map { $0.dictionary(context) },
+			"stack_frames" : (self.stackFrames as? [PLCrashReportStackFrameInfo])?.map { $0.dictionary(context) },
 			"crashed" : self.crashed,
-			"registers" : (self.registers as? [BITPLCrashReportRegisterInfo])?.map { $0.dictionary(context) },
+			"registers" : (self.registers as? [PLCrashReportRegisterInfo])?.map { $0.dictionary(context) },
 		]
 	}
 }
 
-extension BITPLCrashReportProcessorInfo: DictionaryRepresentable {
+extension PLCrashReportProcessorInfo: DictionaryRepresentable {
 	func dictionary(_ context: JSONDumpContext) -> [String: Any?] {
 		return [
 			"type_encoding" : self.typeEncoding.rawValue,
@@ -223,7 +223,7 @@ extension BITPLCrashReportProcessorInfo: DictionaryRepresentable {
 	}
 }
 
-extension BITPLCrashReportBinaryImageInfo: DictionaryRepresentable {
+extension PLCrashReportBinaryImageInfo: DictionaryRepresentable {
 	func dictionary(_ context: JSONDumpContext) -> [String: Any?] {
 		return [
 			"name" : self.imageName,

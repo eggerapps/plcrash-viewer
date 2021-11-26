@@ -88,7 +88,7 @@ class DSYMSymbolizer: Symbolizer
 		return dsymArchive
 	}
 	
-	public class func symbolizer(forCrashReport crashReport: BITPLCrashReport,
+	public class func symbolizer(forCrashReport crashReport: PLCrashReport,
 								 source: Source) throws -> DSYMSymbolizer
 	{
 		guard let buildNumber = crashReport.applicationInfo.applicationVersion else {
@@ -230,7 +230,7 @@ class DSYMSymbolizer: Symbolizer
 	}
 }
 
-extension BITPLCrashReportBinaryImageInfo {
+extension PLCrashReportBinaryImageInfo {
 	var uuid: UUID? {
 		guard var uuidstr = imageUUID else {
 			return nil
