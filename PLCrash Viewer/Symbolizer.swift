@@ -8,9 +8,9 @@
 
 import Foundation
 
-enum SymbolizerError: CustomNSError
+enum SymbolizerError: String, LocalizedError
 {
-	case missingBuildNumber
+	case missingApplicationVersion
 	case dSymRootFolderKeyMissing
 	case archiveFilePatternKeyMissing
 	case xcarchiveFileNotFound
@@ -18,8 +18,13 @@ enum SymbolizerError: CustomNSError
 	case xcarchiveDoesNotContainDSYM
 	case atosOutputNotReadable
 	case couldntReadArchitecturesInDSYM
+	case dsymFileNotFound
 	case unexpectedNumberOfArchitecturesInDSYM
 	case imageUUIDNotFoundInDSYM
+	
+	var errorDescription: String? {
+		rawValue
+	}
 }
 
 protocol Symbolizer

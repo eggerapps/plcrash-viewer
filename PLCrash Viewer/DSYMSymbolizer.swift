@@ -92,7 +92,7 @@ class DSYMSymbolizer: Symbolizer
 								 source: Source) throws -> DSYMSymbolizer
 	{
 		guard let buildNumber = crashReport.applicationInfo.applicationVersion else {
-			throw SymbolizerError.missingBuildNumber
+			throw SymbolizerError.missingApplicationVersion
 		}
 		
 		if let instance = sharedSymbolizersByBuildNumber[buildNumber] {
@@ -181,6 +181,11 @@ class DSYMSymbolizer: Symbolizer
 	public init(dsymURL: URL) throws { // NOTE: for UI app, please use factory method symbolizer(forCrashReport:)
 		self.dsymURL = dsymURL
 		
+		guard FileManager().fileExists(atPath: dsymURL.path) else {
+			fputs("File does not exist at \(dsymURL.path)\n", stderr)
+			throw SymbolizerError.dsymFileNotFound
+		}
+		
 		let pipe = Pipe()
 		let process = Process()
 		process.executableURL = URL(fileURLWithPath: "/usr/bin/dwarfdump")
@@ -201,7 +206,8 @@ class DSYMSymbolizer: Symbolizer
 			_ = scanner.scanUpToCharacters(from: .newlines)
 			_ = scanner.scanCharacters(from: .newlines)
 		}
-		guard archForUUID.count == 2 else {
+		guard 1 <= archForUUID.count && archForUUID.count <= 2 else {
+			fputs("Unexpected number of architectures in \(dsymURL.path): \(archForUUID.count)\n", stderr)
 			throw SymbolizerError.unexpectedNumberOfArchitecturesInDSYM
 		}
 		self.archForUUID = archForUUID
